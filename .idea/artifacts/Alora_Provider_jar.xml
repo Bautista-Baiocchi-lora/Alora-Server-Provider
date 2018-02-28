@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Alora Provider:jar">
+    <output-path>$USER_HOME$/uBot/Server Providers</output-path>
+    <root id="archive" name="Alora Provider.jar">
+      <element id="module-output" name="Alora Provider" />
+    </root>
+  </artifact>
+</component>
