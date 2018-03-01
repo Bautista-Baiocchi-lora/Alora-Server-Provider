@@ -42,12 +42,7 @@ public class Tile implements Locatable, Interactable {
     }
 
     @Override
-    public boolean interact(int menuIndex) {
-        return false;
-    }
-
-    @Override
-    public boolean interact(int menuIndex, String name) {
+    public boolean interact(String action) {
         return false;
     }
 

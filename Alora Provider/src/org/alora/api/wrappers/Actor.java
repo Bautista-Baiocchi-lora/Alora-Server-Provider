@@ -68,20 +68,14 @@ public class Actor implements Locatable, Interactable {
     }
 
     @Override
-    public boolean interact(int menuIndex) {
+    public boolean interact(String action) {
         if (this instanceof NPC) {
             long indexHash = ((NPC) this).getHash();
-            org.alora.api.data.Menu.sendNPCInteraction(indexHash, menuIndex);
+            org.alora.api.data.Menu.sendNPCInteraction(indexHash, action);
             return true;
         }
         return false;
     }
-
-    @Override
-    public boolean interact(int menuIndex, String entityName) {
-        return false;
-    }
-
 
     @Override
     public boolean isOnScreen() {

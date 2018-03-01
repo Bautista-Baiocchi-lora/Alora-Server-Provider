@@ -29,7 +29,7 @@ public class NPCInfoOverlay extends ScreenOverlay<NPC> {
             for (NPC p : refresh()) {
                 if (p != null && p.isValid()) {
                     if (p.getName().equals("Ali Morrisane")) {
-                        p.interact(2);
+                        p.interact("Trade");
                     }
                 }
             }

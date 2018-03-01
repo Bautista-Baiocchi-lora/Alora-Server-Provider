@@ -31,7 +31,6 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
         drawText("BaseY: " + Game.getBaseY());
         drawText("Plane: " + Game.getPlane());
 
-
         return debuggedList.toArray(new String[debuggedList.size()]);
     }
 
@@ -42,14 +41,12 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
 
     @Override
     public void render(Graphics2D graphics) {
-        if (Menu.getMenuInstance() != null) {
-            graphics.setColor(Color.orange);
-            int yOff = 30;
+        graphics.setColor(Color.orange);
+        int yOff = 30;
 
-            for (String str : elements()) {
-                graphics.drawString(str, 15, yOff);
-                yOff += 15;
-            }
+        for (String str : elements()) {
+            graphics.drawString(str, 15, yOff);
+            yOff += 15;
         }
     }
 

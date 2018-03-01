@@ -6,8 +6,6 @@ package org.alora.api.interfaces;
  */
 public interface Interactable {
 
-    boolean interact(final int menuIndex);
-
-    boolean interact(final int menuIndex, String entityName);
+    boolean interact(final String action);
 
 }

@@ -1,10 +1,10 @@
 package org.alora.overlays;
 
 import org.alora.api.interactive.GameObjects;
+import org.alora.api.interactive.Inventory;
 import org.alora.api.wrappers.GameObject;
 import org.bot.Engine;
 import org.bot.component.screen.ScreenOverlay;
-import org.bot.ui.screens.clientframe.menu.logger.Logger;
 
 import java.awt.*;
 
@@ -32,14 +32,9 @@ public class GameObjectInfo extends ScreenOverlay<GameObject> {
     @Override
     public void render(Graphics2D graphics) {
         if (!b) {
-            for (GameObject p : elements()) {
-                if (p != null && p.isValid()) {
-                    if (String.valueOf(p.getHash()).startsWith("20939")) {
-                        Logger.log(p.getId() + "");
-                    }
-                }
-            }
             b = true;
+            Inventory.getAllItems();
+
         }
     }
 }

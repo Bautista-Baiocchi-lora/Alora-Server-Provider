@@ -1,7 +1,7 @@
 package org.alora.api.wrappers;
 
 import org.alora.api.data.Calculations;
-import org.alora.api.data.Game;
+import org.alora.api.data.Menu;
 import org.alora.api.interfaces.Identifiable;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Locatable;
@@ -9,7 +9,7 @@ import org.alora.api.interfaces.Nameable;
 import org.bot.Engine;
 
 import java.awt.*;
-import java.lang.reflect.Field;
+
 
 /**
  * Created by Ethan on 2/27/2018.
@@ -37,39 +37,42 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
         if (raw == null)
             return 0;
         if (id == 0) {
-            id = ((int) Engine.getReflectionEngine().getFieldValue("UC", "J", raw));
+            id = (int) (getHash() >>> 32) & Integer.MAX_VALUE;
             return id;
         }
         return -1;
     }
 
     public int getLocalX() {
-        int x = tile.x - Game.getBaseX();
+        final int x = (int) getHash() & 0x7F;
         return x;
     }
 
     public int getLocalY() {
-        int y = tile.y - Game.getBaseY();
+        final int y = 0x7F & (int) getHash() >> 7;
         return y;
     }
 
-    public void intValues() {
-        try {
-            Class<?> c = Engine.getReflectionEngine().getClass("UC").getRespresentedClass();
-            for (Field f : c.getDeclaredFields()) {
-                if (f.getGenericType().getTypeName().equals("int")) {
-                    if (!f.toGenericString().contains("static")) {
-                        if (String.valueOf(getHash()).startsWith("20939")) {
-                            int i = (int) Engine.getReflectionEngine().getFieldValue("UC", f.getName(), raw);
-                            System.out.println(getHash() + " : " + i + " : " + f.getName());
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    private String getRealName() {
+        if (objectDefInstance() != null) {
+            return (String) Engine.getReflectionEngine().getFieldValue("JG", "X", objectDefInstance());
         }
+        return "null";
     }
+
+    public String[] getActions() {
+        if (objectDefInstance() != null) {
+            return (String[]) Engine.getReflectionEngine().getFieldValue("JG", "R", objectDefInstance());
+        }
+        return null;
+    }
+
+    private Object objectDefInstance() {
+        int id2 = (int) (getHash() >>> 32) & Integer.MAX_VALUE;
+        Object objectDef = Engine.getReflectionEngine().getMethodValue("JG", "C", 1, "final class JG", null, id2);
+        return objectDef;
+    }
+
 
     public int getX() {
         return tile.getX();
@@ -133,21 +136,62 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
         return false;
     }
 
-    @Override
-    public boolean interact(int menuIndex, String objectName) {
-        org.alora.api.data.Menu.sendInteraction(getLocalX(), getLocalY(), menuIndex, getHash(), objectName, "");
-        return true;
+/*
+    private int getMenuIndex(String action) {
+        Logger.log("Searching for index");
+        final String[] actions = getActions();
+        Logger.log("Found actions");
+        final Object instance = objectDefInstance();
+        if (instance != null) {
+            Logger.log("found instance");
+        }
+        for (int i = 0; i <= 4; i++) {
+            Logger.log("looping");
+            if (actions != null) {
+                if (actions[i].toLowerCase().equalsIgnoreCase(action)) {
+                    Logger.log("One of out actions hit");
+                    if (i == 0) {
+                        return 42;
+                    }
+                    if (i == 1) {
+                        return 50;
+                    }
+                    if (i == 2) {
+                        return 49;
+                    }
+             */
+/*       if ((int) Engine.getReflectionEngine().getFieldValue("JG", "L", instance) == i) {
+                        return (int) Engine.getReflectionEngine().getFieldValue("JG", "e", instance);
+                    }*//*
+
+                    if (i == 3) {
+                        return 46;
+                    }
+                */
+/*    if ((int) Engine.getReflectionEngine().getFieldValue("JG", "L", instance) == i) {
+                        return (int) Engine.getReflectionEngine().getFieldValue("JG", "e", instance);
+                    }*//*
+
+                    if (i == 4) {
+                        return 1001;
+                    }
+                }
+            }
+        }
+        return -1;
     }
+*/
 
     @Override
-    public boolean interact(int menuIndex) {
-        System.out.println(getLocalX() + " : " + getLocalY());
-        org.alora.api.data.Menu.sendInteraction(getLocalX(), getLocalY(), menuIndex, getHash(), "", "");
+    public boolean interact(String action) {
+        String color = "<col=00ffff>";
+        final int index = Menu.getIndexForAction(getActions(), action);
+        Menu.sendInteraction(getLocalX(), getLocalY(), index, getHash(), color + getName(), action);
         return true;
     }
 
     @Override
     public String getName() {
-        return null;
+        return getRealName();
     }
 }

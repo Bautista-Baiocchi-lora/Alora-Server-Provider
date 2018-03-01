@@ -19,6 +19,10 @@ public class Game {
         return (int) Engine.getReflectionEngine().getFieldValue("CS", "C", null);
     }
 
+    public static int getID() {
+        return (int) Engine.getReflectionEngine().getFieldValue("DE", "D", null);
+    }
+
     public static int getPlane() {
         return 0;
     }

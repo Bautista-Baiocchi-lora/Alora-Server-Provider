@@ -12,20 +12,28 @@ public class Menu {
         Engine.getReflectionEngine().getMethodValue("HG", "I", 8, "void", null, i1, i2, i3, indexHash, action, option, 0, 0);
     }
 
-    public static void sendNPCInteraction(long indexHash, int menuIndex) {
-        Logger.log("Sending NPC Interaction");
-        switch (menuIndex) {
-            case 1:
+    public static void sendNPCInteraction(long indexHash, String action) {
+        switch (action) {
+            case "Talk-to":
                 sendInteraction(0, 0, 17, indexHash, "", "");
                 break;
-            case 2:
+            case "Trade":
                 sendInteraction(0, 0, 4, indexHash, "", "");
                 break;
-            case 3:
-                sendInteraction(0, 0, 19, indexHash, "", "");
+            case "Heal":
+                sendInteraction(0, 0, 4, indexHash, "", "");
                 break;
-            case 4:
-                sendInteraction(0, 0, 2, indexHash, "", "");
+            case "Assignment":
+                sendInteraction(0, 0, 4, indexHash, "", "");
+                break;
+            case "Previous":
+                sendInteraction(0, 0, 4, indexHash, "", "");
+                break;
+            case "Attack":
+                sendInteraction(0, 0, 16, indexHash, "", "");
+                break;
+            case "Pickpocket":
+                sendInteraction(0, 0, 4, indexHash, "", "");
                 break;
             default:
                 sendInteraction(0, 0, 17, indexHash, "", "");
@@ -33,31 +41,22 @@ public class Menu {
         }
     }
 
-    public static void sendItemInteraction(int slot, int menuIndex, int itemID) {
-        switch (menuIndex) {
-            case 1:
-                sendInteraction(slot, 69694, 25, itemID, "", "");
-                break;
-            case 2:
-                sendInteraction(slot, 69694, 13, itemID, "", "");
-                break;
-            default:
-                sendInteraction(slot, 69694, 13, itemID, "", "");
-                break;
+    public static void sendNPCInteraction(long indexHash, int menuIndex) {
+        sendInteraction(0, 0, menuIndex, indexHash, "", "");
+    }
+
+    public static void sendItemInteraction(int slot, int widgetHash, String action, int itemID) {
+        for (ItemOptions option : ItemOptions.values()) {
+            if (option.getName().trim().equals(action.toLowerCase().trim())) {
+                Logger.log("Slot: " + slot + " Hash: " + widgetHash + " : " + option.getIndex() + " : " + (long) itemID);
+                sendInteraction(slot, widgetHash, option.getIndex(), (long) itemID, "", "");
+            }
         }
     }
 
-    public static void sendWidgetInteraction(int widgetHash, int menuIndex) {
-        switch (menuIndex) {
-            case 1:
-                sendInteraction(-1, widgetHash, 9, 1, "", "");
-                break;
-            case 2:
-                sendInteraction(-1, widgetHash, 9, 1, "", "");
-                break;
-            default:
-                sendInteraction(-1, widgetHash, 9, 1, "", "");
-                break;
+    public static void sendWidgetInteraction(int menuHash, String action) {
+        switch (action.toLowerCase()) {
+
         }
     }
 
@@ -85,7 +84,34 @@ public class Menu {
         return (String) Engine.getReflectionEngine().getFieldValue("VE", "C", getMenuInstance());
     }
 
-    public static Object getMenuInstance() {
+    public static int getIndexForAction(String[] actions, String action) {
+        for (int i = 0; i <= 4; i++) {
+            if (stringIsValid(actions[i]) && actions[i].equalsIgnoreCase(action)) {
+                if (i == 0) {
+                    return 42;
+                }
+                if (i == 1) {
+                    return 50;
+                }
+                if (i == 2) {
+                    return 49;
+                }
+                if (i == 3) {
+                    return 46;
+                }
+                if (i == 4) {
+                    return 1001;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private static boolean stringIsValid(String string) {
+        return string != null && string.length() > 0 && !string.isEmpty() && !string.equals("null");
+    }
+
+    private static Object getMenuInstance() {
         return Engine.getReflectionEngine().getMethodValue("MS", "T", 0, "class CG", null);
     }
 

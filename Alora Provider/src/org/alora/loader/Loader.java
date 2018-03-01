@@ -1,9 +1,6 @@
 package org.alora.loader;
 
-import org.alora.overlays.BasicInfoDebugger;
-import org.alora.overlays.GameObjectInfo;
-import org.alora.overlays.NPCInfoOverlay;
-import org.alora.overlays.PlayerInfoOverlay;
+import org.alora.overlays.*;
 import org.bot.Engine;
 import org.bot.component.screen.ScreenOverlay;
 import org.bot.provider.loader.ServerLoader;
@@ -47,6 +44,8 @@ public class Loader extends ServerLoader<Applet> {
         overlays.add(new GameObjectInfo());
         overlays.add(new BasicInfoDebugger());
         overlays.add(new NPCInfoOverlay());
+        overlays.add(new InventoryOverlay());
+
         return overlays;
     }
 
