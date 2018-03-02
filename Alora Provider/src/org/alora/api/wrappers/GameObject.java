@@ -69,8 +69,13 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
 
     private Object objectDefInstance() {
         int id2 = (int) (getHash() >>> 32) & Integer.MAX_VALUE;
-        Object objectDef = Engine.getReflectionEngine().getMethodValue("JG", "C", 1, "final class JG", null, id2);
-        return objectDef;
+        try {
+            Object objectDef = Engine.getReflectionEngine().getMethodValue("JG", "C", 1, "final class JG", null, id2);
+            return objectDef;
+
+        } catch (Exception e) {
+        }
+        return null;
     }
 
 

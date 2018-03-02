@@ -1,8 +1,6 @@
 package org.alora.api.data;
 
 import org.bot.Engine;
-import org.bot.ui.screens.clientframe.menu.logger.Logger;
-
 
 /**
  * Created by Ethan on 2/26/2018.
@@ -45,18 +43,25 @@ public class Menu {
         sendInteraction(0, 0, menuIndex, indexHash, "", "");
     }
 
+    public static void sendGroundItemInteraction(int localOne, int localTwo, int itemID) {
+        sendInteraction(localOne, localTwo, 18, (long) itemID, "", "");
+    }
     public static void sendItemInteraction(int slot, int widgetHash, String action, int itemID) {
         for (ItemOptions option : ItemOptions.values()) {
             if (option.getName().trim().equals(action.toLowerCase().trim())) {
-                Logger.log("Slot: " + slot + " Hash: " + widgetHash + " : " + option.getIndex() + " : " + (long) itemID);
                 sendInteraction(slot, widgetHash, option.getIndex(), (long) itemID, "", "");
             }
         }
     }
 
-    public static void sendWidgetInteraction(int menuHash, String action) {
-        switch (action.toLowerCase()) {
-
+    public static void sendWidgetInteraction(String option, int hash) {
+        switch (option.toLowerCase()) {
+            case "continue":
+                sendInteraction(-1, hash, 41, 0, "", "");
+                break;
+            default:
+                sendInteraction(-1, hash, 9, 1, "", "");
+                break;
         }
     }
 

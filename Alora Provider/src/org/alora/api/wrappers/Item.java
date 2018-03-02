@@ -1,6 +1,7 @@
 package org.alora.api.wrappers;
 
 import org.alora.api.data.Menu;
+import org.alora.api.definitions.ItemDefinition;
 import org.alora.api.interfaces.Identifiable;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Nameable;
@@ -17,6 +18,7 @@ public class Item implements Identifiable, Nameable, Interactable {
     private int stackSize;
     private Rectangle area;
     private int hash = 0;
+    private ItemDefinition itemDefinition;
 
     public Item(int id, int stackSize, int index, Rectangle area, int hash) {
         this.id = id;
@@ -51,7 +53,9 @@ public class Item implements Identifiable, Nameable, Interactable {
 
     @Override
     public String getName() {
-        return null;
+        if (itemDefinition == null)
+            itemDefinition = new ItemDefinition(id);
+        return itemDefinition.getName();
     }
 
     @Override

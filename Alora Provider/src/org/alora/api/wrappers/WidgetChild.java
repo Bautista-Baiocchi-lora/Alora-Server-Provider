@@ -71,13 +71,17 @@ public class WidgetChild implements Interactable {
         return list.toArray(new WidgetChild[list.size()]);
     }
 
+    public int getIndex() {
+        return index;
+    }
+
     public int getParent() {
         return parent;
     }
 
     @Override
     public boolean interact(String action) {
-        Menu.sendWidgetInteraction(getHash(), action);
+        Menu.sendWidgetInteraction(action, getHash());
         return true;
     }
 
