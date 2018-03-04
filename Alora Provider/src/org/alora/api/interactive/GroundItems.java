@@ -3,9 +3,9 @@ package org.alora.api.interactive;
 import org.alora.api.data.Game;
 import org.alora.api.wrappers.GroundItem;
 import org.alora.api.wrappers.Tile;
-import org.bot.Engine;
-import org.bot.util.Filter;
-import org.bot.util.Utilities;
+import org.alora.loader.Loader;
+import org.ubot.util.Filter;
+import org.ubot.util.Utilities;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class GroundItems {
     public static GroundItem[] getAll(Filter<GroundItem> filter) {
         List<GroundItem> groundItems = new ArrayList<>();
 
-        Object[][][] groundArrayObjects = (Object[][][]) Engine.getReflectionEngine().getFieldValue("VB", "L");
+        Object[][][] groundArrayObjects = (Object[][][]) Loader.getReflectionEngine().getFieldValue("VB", "L");
 
         int z = Game.getPlane();
         for (int x = 0; x < 104; x++) {
@@ -40,7 +40,7 @@ public class GroundItems {
 
     private static Object getMethodValue(String field, Object obj) {
         try {
-            Class<?> clazz = Engine.getReflectionEngine().getClass("TS").getRespresentedClass();
+            Class<?> clazz = Loader.getReflectionEngine().getClass("TS").getRespresentedClass();
             for (Method m : clazz.getDeclaredMethods()) {
                 if (m.getName().equals(field)) {
                     if (m.getParameterCount() == 0) {
@@ -56,30 +56,15 @@ public class GroundItems {
     }
 
     public static GroundItem[] getAll(final String... names) {
-        return getAll(new Filter<GroundItem>() {
-            @Override
-            public boolean accept(GroundItem groundItem) {
-                return groundItem.isValid() && groundItem.getName() != null && Utilities.inArray(groundItem.getName(), names);
-            }
-        });
+        return getAll(groundItem -> groundItem.isValid() && groundItem.getName() != null && Utilities.inArray(groundItem.getName(), names));
     }
 
     public static GroundItem[] getAll(final int... ids) {
-        return getAll(new Filter<GroundItem>() {
-            @Override
-            public boolean accept(GroundItem groundItem) {
-                return groundItem.isValid() && Utilities.inArray(groundItem.getId(), ids);
-            }
-        });
+        return getAll(groundItem -> groundItem.isValid() && Utilities.inArray(groundItem.getId(), ids));
     }
 
     public static GroundItem[] getAll() {
-        return getAll(new Filter<GroundItem>() {
-            @Override
-            public boolean accept(GroundItem groundItem) {
-                return true;
-            }
-        });
+        return getAll(groundItem -> true);
     }
 
     public static GroundItem getNearest(Filter<GroundItem> filter) {
@@ -99,31 +84,15 @@ public class GroundItems {
     }
 
     public static GroundItem getNearest(final int... ids) {
-        return getNearest(Players.getLocal().getLocation(), new Filter<GroundItem>() {
-            @Override
-            public boolean accept(GroundItem groundItem) {
-                return groundItem.isValid() && Utilities.inArray(groundItem.getId(), ids);
-            }
-        });
+        return getNearest(Players.getLocal().getLocation(), groundItem -> groundItem.isValid() && Utilities.inArray(groundItem.getId(), ids));
     }
 
     public static GroundItem getNearest(final String... names) {
-        return getNearest(Players.getLocal().getLocation(), new Filter<GroundItem>() {
-            @Override
-            public boolean accept(GroundItem groundItem) {
-                return groundItem.isValid() && Utilities.inArray(groundItem.getName(), names);
-            }
-        });
+        return getNearest(Players.getLocal().getLocation(), groundItem -> groundItem.isValid() && Utilities.inArray(groundItem.getName(), names));
     }
 
     public static GroundItem getAt(final Tile tile) {
-        return getNearest(Players.getLocal().getLocation(), new Filter<GroundItem>() {
-
-            @Override
-            public boolean accept(GroundItem obj) {
-                return obj != null && tile.equals(obj.getLocation());
-            }
-        });
+        return getNearest(Players.getLocal().getLocation(), obj -> obj != null && tile.equals(obj.getLocation()));
     }
 
 

@@ -6,8 +6,8 @@ package org.alora.api.interactive;
 
 import org.alora.api.wrappers.Player;
 import org.alora.api.wrappers.Tile;
-import org.bot.Engine;
-import org.bot.util.Filter;
+import org.alora.loader.Loader;
+import org.ubot.util.Filter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 public class Players {
 
     public static Player getLocal() {
-        return new Player(Engine.getReflectionEngine().getFieldValue("MS", "FI", null));
+        return new Player(Loader.getReflectionEngine().getFieldValue("MS", "FI", null));
     }
 
     public static Player[] getAll() {
@@ -25,7 +25,7 @@ public class Players {
 
     public static Player[] getAll(Filter<Player> filter) {
         List<Player> list = new ArrayList<>();
-        final Object[] objects = (Object[]) Engine.getReflectionEngine().getFieldValue("MS", "GI", null);
+        final Object[] objects = (Object[]) Loader.getReflectionEngine().getFieldValue("MS", "GI", null);
         for (Object player : objects) {
             if (player != null) {
                 Player wrapper = new Player(player);

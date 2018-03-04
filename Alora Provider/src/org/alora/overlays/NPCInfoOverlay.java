@@ -2,8 +2,7 @@ package org.alora.overlays;
 
 import org.alora.api.interactive.Npcs;
 import org.alora.api.wrappers.NPC;
-import org.bot.Engine;
-import org.bot.component.screen.ScreenOverlay;
+import org.ubot.component.screen.ScreenOverlay;
 
 import java.awt.*;
 
@@ -20,7 +19,7 @@ public class NPCInfoOverlay extends ScreenOverlay<NPC> {
 
     @Override
     public boolean activate() {
-        return Engine.getServerProvider().isDebugNPCs();
+        return false;
     }
 
     @Override

@@ -1,8 +1,9 @@
 package org.alora.api.wrappers;
 
 import org.alora.api.data.Menu;
+import org.alora.api.interactive.Widgets;
 import org.alora.api.interfaces.Interactable;
-import org.bot.Engine;
+import org.alora.loader.Loader;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -24,35 +25,35 @@ public class WidgetChild implements Interactable {
     }
 
     public int getHash() {
-        return (int) Engine.getReflectionEngine().getFieldValue("IK", "RZ", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("IK", "RZ", raw);
     }
 
     public String getText() {
-        return (String) Engine.getReflectionEngine().getFieldValue("IK", "XI", raw);
+        return (String) Loader.getReflectionEngine().getFieldValue("IK", "XI", raw);
     }
 
     public int[] getSlotContentIds() {
-        return (int[]) Engine.getReflectionEngine().getFieldValue("IK", "tI", raw);
+        return (int[]) Loader.getReflectionEngine().getFieldValue("IK", "tI", raw);
     }
 
     public int[] getStackSizes() {
-        return (int[]) Engine.getReflectionEngine().getFieldValue("IK", "ZC", raw);
+        return (int[]) Loader.getReflectionEngine().getFieldValue("IK", "ZC", raw);
     }
 
     public String[] getActions() {
-        return (String[]) Engine.getReflectionEngine().getFieldValue("IK", "N", raw);
+        return (String[]) Loader.getReflectionEngine().getFieldValue("IK", "N", raw);
     }
 
     public boolean isVisible() {
-        return Engine.getServerProvider().getLoadedInterfaces().contains(parent);
+        return Widgets.getOpenInterfaces().contains(parent);
     }
 
     public void getIntValues() {
-        Class<?> c = Engine.getReflectionEngine().getClass("IK").getRespresentedClass();
+        Class<?> c = Loader.getReflectionEngine().getClass("IK").getRespresentedClass();
         for (Field f : c.getDeclaredFields()) {
             if (f.getGenericType().getTypeName().equals("int")) {
                 if (!f.toGenericString().contains("static")) {
-                    int i = (int) Engine.getReflectionEngine().getFieldValue("IK", f.getName(), raw);
+                    int i = (int) Loader.getReflectionEngine().getFieldValue("IK", f.getName(), raw);
                     System.out.println(i + " : " + f.getName());
                 }
             }
@@ -61,7 +62,7 @@ public class WidgetChild implements Interactable {
 
     public WidgetChild[] getChildren() {
         List<WidgetChild> list = new ArrayList<>();
-        Object[] children = (Object[]) Engine.getReflectionEngine().getFieldValue("IK", "CZ", raw);
+        Object[] children = (Object[]) Loader.getReflectionEngine().getFieldValue("IK", "CZ", raw);
         if (children == null) {
             return list.toArray(new WidgetChild[list.size()]);
         }

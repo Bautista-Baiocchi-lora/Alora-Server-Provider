@@ -6,7 +6,7 @@ import org.alora.api.interfaces.Identifiable;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Locatable;
 import org.alora.api.interfaces.Nameable;
-import org.bot.Engine;
+import org.alora.loader.Loader;
 
 import java.awt.*;
 
@@ -29,7 +29,7 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
 
     @Override
     public long getHash() {
-        return (long) Engine.getReflectionEngine().getFieldValue("UC", "P", raw);
+        return (long) Loader.getReflectionEngine().getFieldValue("UC", "P", raw);
     }
 
     @Override
@@ -55,14 +55,14 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
 
     private String getRealName() {
         if (objectDefInstance() != null) {
-            return (String) Engine.getReflectionEngine().getFieldValue("JG", "X", objectDefInstance());
+            return (String) Loader.getReflectionEngine().getFieldValue("JG", "X", objectDefInstance());
         }
         return "null";
     }
 
     public String[] getActions() {
         if (objectDefInstance() != null) {
-            return (String[]) Engine.getReflectionEngine().getFieldValue("JG", "R", objectDefInstance());
+            return (String[]) Loader.getReflectionEngine().getFieldValue("JG", "R", objectDefInstance());
         }
         return null;
     }
@@ -70,7 +70,7 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
     private Object objectDefInstance() {
         int id2 = (int) (getHash() >>> 32) & Integer.MAX_VALUE;
         try {
-            Object objectDef = Engine.getReflectionEngine().getMethodValue("JG", "C", 1, "final class JG", null, id2);
+            Object objectDef = Loader.getReflectionEngine().getMethodValue("JG", "C", 1, "final class JG", null, id2);
             return objectDef;
 
         } catch (Exception e) {
@@ -165,16 +165,16 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
                         return 49;
                     }
              */
-/*       if ((int) Engine.getReflectionEngine().getFieldValue("JG", "L", instance) == i) {
-                        return (int) Engine.getReflectionEngine().getFieldValue("JG", "e", instance);
+/*       if ((int) Loader.getReflectionEngine().getFieldValue("JG", "L", instance) == i) {
+                        return (int) Loader.getReflectionEngine().getFieldValue("JG", "e", instance);
                     }*//*
 
                     if (i == 3) {
                         return 46;
                     }
                 */
-/*    if ((int) Engine.getReflectionEngine().getFieldValue("JG", "L", instance) == i) {
-                        return (int) Engine.getReflectionEngine().getFieldValue("JG", "e", instance);
+/*    if ((int) Loader.getReflectionEngine().getFieldValue("JG", "L", instance) == i) {
+                        return (int) Loader.getReflectionEngine().getFieldValue("JG", "e", instance);
                     }*//*
 
                     if (i == 4) {

@@ -1,6 +1,7 @@
 package org.alora.api.data;
 
-import org.bot.Engine;
+
+import org.alora.loader.Loader;
 
 /**
  * Created by Ethan on 2/27/2018.
@@ -12,43 +13,60 @@ public class Game {
     public static final int CONNECTING = 20;
 
     public static int getClientCycle() {
-        return (int) Engine.getReflectionEngine().getFieldValue("YF", "Z", null);
+        return (int) Loader.getReflectionEngine().getFieldValue("YF", "Z", null);
     }
 
     public static int getBaseX() {
-        return (int) Engine.getReflectionEngine().getFieldValue("VI", "I", null);
+        return (int) Loader.getReflectionEngine().getFieldValue("VI", "I", null);
     }
 
     public static int getBaseY() {
-        return (int) Engine.getReflectionEngine().getFieldValue("CS", "C", null);
+        return (int) Loader.getReflectionEngine().getFieldValue("CS", "C", null);
     }
 
     public static int getMapScale() {
-        return (int) Engine.getReflectionEngine().getFieldValue("TD", "H", null);
+        return (int) Loader.getReflectionEngine().getFieldValue("TD", "H", null);
     }
 
     public static int getMapScaleDelta() {
-        return (int) Engine.getReflectionEngine().getFieldValue("SC", "F", null);
+        return (int) Loader.getReflectionEngine().getFieldValue("SC", "F", null);
     }
 
     public static int getMapAngle() {
-        return (int) Engine.getReflectionEngine().getFieldValue("AH", "Z", null);
+        return (int) Loader.getReflectionEngine().getFieldValue("AH", "Z", null);
     }
 
 
     public static int getID() {
-        return (int) Engine.getReflectionEngine().getFieldValue("DE", "D", null);
+        return (int) Loader.getReflectionEngine().getFieldValue("DE", "D", null);
     }
 
     public static int getLoginStage() {
-        return (int) Engine.getReflectionEngine().getFieldValue("ID", "H", null);
+        return (int) Loader.getReflectionEngine().getFieldValue("ID", "H", null);
 
     }
     public static int getPlane() {
-        return (int) Engine.getReflectionEngine().getFieldValue("VC", "I", null);
+        return (int) Loader.getReflectionEngine().getFieldValue("VC", "I", null);
     }
 
+    public static boolean usingQuickPrayer() {
+        return Settings.get(375) == 1;
+    }
 
+    public static boolean isUsingSpecialAttack() {
+        return Settings.get(301) == 1;
+    }
+
+    public static int getSpecialAttackPercent() {
+        if (Settings.get(300) > 0) {
+            return Settings.get(300) / 10;
+        }
+        return 0;
+    }
+
+    public static boolean isRunning() {
+        return Settings.get(173) > 0;
+    }
     public static boolean isLoggedIn() {
         return getLoginStage() == STATE_LOGGED_IN;
     }

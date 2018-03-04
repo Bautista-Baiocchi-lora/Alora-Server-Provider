@@ -1,10 +1,11 @@
 package org.alora.api.definitions;
 
+import org.alora.loader.Loader;
+
 /**
  * Created by Ethan on 2/27/2018.
  */
 
-import org.bot.Engine;
 
 
 public class NPCDefinition {
@@ -19,25 +20,25 @@ public class NPCDefinition {
     public int getId() {
         if (raw == null)
             return -1;
-        return (int) Engine.getReflectionEngine().getFieldValue("FG", "j", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("FG", "j", raw);
     }
 
     public int getCombatLevel() {
         if (raw == null)
             return -1;
-        return (int) Engine.getReflectionEngine().getFieldHookValue("NpcCombatLevel", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("NpcCombatLevel", "", raw);
     }
 
     public String getName() {
         if (raw == null)
             return null;
-        return (String) Engine.getReflectionEngine().getFieldValue("FG", "V", raw);
+        return (String) Loader.getReflectionEngine().getFieldValue("FG", "V", raw);
     }
 
     public String[] getActions() {
         if (raw == null)
             return null;
-        return (String[]) Engine.getReflectionEngine().getFieldValue("FG", "S", raw);
+        return (String[]) Loader.getReflectionEngine().getFieldValue("FG", "S", raw);
     }
 
     public boolean isValid() {

@@ -8,7 +8,7 @@ import org.alora.api.interfaces.Identifiable;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Locatable;
 import org.alora.api.interfaces.Nameable;
-import org.bot.Engine;
+import org.alora.loader.Loader;
 
 import java.awt.*;
 
@@ -39,7 +39,7 @@ public class GroundItem implements Locatable, Identifiable, Nameable, Interactab
     }
 
     private Object getItemInstance() {
-        return Engine.getReflectionEngine().getFieldValue("HA", "B", raw);
+        return Loader.getReflectionEngine().getFieldValue("HA", "B", raw);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class GroundItem implements Locatable, Identifiable, Nameable, Interactab
 
     @Override
     public int getId() {
-        return (int) Engine.getReflectionEngine().getFieldValue("AE", "F", itemInstance);
+        return (int) Loader.getReflectionEngine().getFieldValue("AE", "F", itemInstance);
     }
 
     public String[] getOptions() {

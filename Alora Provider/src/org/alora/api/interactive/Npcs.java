@@ -6,9 +6,9 @@ package org.alora.api.interactive;
 
 import org.alora.api.wrappers.NPC;
 import org.alora.api.wrappers.Tile;
-import org.bot.Engine;
-import org.bot.util.Filter;
-import org.bot.util.Utilities;
+import org.alora.loader.Loader;
+import org.ubot.util.Filter;
+import org.ubot.util.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +18,13 @@ public class Npcs {
     public static NPC[] getAll(final String... names) {
         if (names == null)
             return getAll();
-        return getAll(new Filter<NPC>() {
-            @Override
-            public boolean accept(NPC npc) {
-                return npc.isValid() && npc.getName() != null && Utilities.inArray(npc.getName(), names);
-            }
-        });
+        return getAll(npc -> npc.isValid() && npc.getName() != null && Utilities.inArray(npc.getName(), names));
     }
 
     public static NPC[] getAll(Filter<NPC> filter) {
         List<NPC> list = new ArrayList<>();
 
-        final Object[] objects = (Object[]) Engine.getReflectionEngine().getFieldValue("YB", "H", null);
+        final Object[] objects = (Object[]) Loader.getReflectionEngine().getFieldValue("YB", "H", null);
         int i = 0;
         for (Object npc : objects) {
             if (npc != null) {
@@ -44,12 +39,7 @@ public class Npcs {
     }
 
     public static NPC[] getAll() {
-        return getAll(new Filter<NPC>() {
-            @Override
-            public boolean accept(NPC npc) {
-                return true;
-            }
-        });
+        return getAll(npc -> true);
     }
 
 
@@ -71,22 +61,12 @@ public class Npcs {
 
     public static NPC getNearest(final int... ids) {
 
-        return getNearest(Players.getLocal().getLocation(), new Filter<NPC>() {
-            @Override
-            public boolean accept(NPC npc) {
-                return npc.isValid() && Utilities.inArray(npc.getId(), ids);
-            }
-        });
+        return getNearest(Players.getLocal().getLocation(), npc -> npc.isValid() && Utilities.inArray(npc.getId(), ids));
     }
 
     public static NPC getNearest(final String... names) {
 
-        return getNearest(Players.getLocal().getLocation(), new Filter<NPC>() {
-            @Override
-            public boolean accept(NPC npc) {
-                return npc.isValid() && Utilities.inArray(npc.getName(), names);
-            }
-        });
+        return getNearest(Players.getLocal().getLocation(), npc -> npc.isValid() && Utilities.inArray(npc.getName(), names));
     }
 
 

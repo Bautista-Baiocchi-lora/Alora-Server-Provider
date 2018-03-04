@@ -1,7 +1,7 @@
 package org.alora.api.wrappers;
 
 import org.alora.api.interfaces.Nameable;
-import org.bot.Engine;
+import org.alora.loader.Loader;
 
 /**
  * Created by Ethan on 2/27/2018.
@@ -16,6 +16,6 @@ public class Player extends Actor implements Nameable {
     public String getName() {
         if (getRaw() == null)
             return null;
-        return (String) Engine.getReflectionEngine().getFieldValue("OG", "BZ", getRaw());
+        return (String) Loader.getReflectionEngine().getFieldValue("OG", "BZ", getRaw());
     }
 }

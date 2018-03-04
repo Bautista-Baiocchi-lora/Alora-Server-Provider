@@ -1,13 +1,14 @@
 package org.alora.api.data;
 
-import org.bot.Engine;
+
+import org.alora.loader.Loader;
 
 /**
  * Created by Ethan on 2/26/2018.
  */
 public class Menu {
     public static void sendInteraction(int i1, int i2, int i3, long indexHash, String action, String option) {
-        Engine.getReflectionEngine().getMethodValue("HG", "I", 8, "void", null, i1, i2, i3, indexHash, action, option, 0, 0);
+        Loader.getReflectionEngine().getMethodValue("HG", "I", 8, "void", null, i1, i2, i3, indexHash, action, option, 0, 0);
     }
 
     public static void sendNPCInteraction(long indexHash, String action) {
@@ -66,27 +67,27 @@ public class Menu {
     }
 
     public static long longValue() {
-        return (long) Engine.getReflectionEngine().getFieldValue("VE", "B", getMenuInstance());
+        return (long) Loader.getReflectionEngine().getFieldValue("VE", "B", getMenuInstance());
     }
 
     public static int intValueThree() {
-        return (int) Engine.getReflectionEngine().getFieldValue("VE", "I", getMenuInstance());
+        return (int) Loader.getReflectionEngine().getFieldValue("VE", "I", getMenuInstance());
     }
 
     public static int intValueOne() {
-        return (int) Engine.getReflectionEngine().getFieldValue("VE", "D", getMenuInstance());
+        return (int) Loader.getReflectionEngine().getFieldValue("VE", "D", getMenuInstance());
     }
 
     public static int intValueTwo() {
-        return (int) Engine.getReflectionEngine().getFieldValue("VE", "F", getMenuInstance());
+        return (int) Loader.getReflectionEngine().getFieldValue("VE", "F", getMenuInstance());
     }
 
     public static String stringValueOne() {
-        return (String) Engine.getReflectionEngine().getFieldValue("VE", "Z", getMenuInstance());
+        return (String) Loader.getReflectionEngine().getFieldValue("VE", "Z", getMenuInstance());
     }
 
     public static String stringValueTwo() {
-        return (String) Engine.getReflectionEngine().getFieldValue("VE", "C", getMenuInstance());
+        return (String) Loader.getReflectionEngine().getFieldValue("VE", "C", getMenuInstance());
     }
 
     public static int getIndexForAction(String[] actions, String action) {
@@ -117,7 +118,7 @@ public class Menu {
     }
 
     private static Object getMenuInstance() {
-        return Engine.getReflectionEngine().getMethodValue("MS", "T", 0, "class CG", null);
+        return Loader.getReflectionEngine().getMethodValue("MS", "T", 0, "class CG", null);
     }
 
 }

@@ -2,9 +2,7 @@ package org.alora.overlays;
 
 import org.alora.api.interactive.Inventory;
 import org.alora.api.wrappers.Item;
-import org.bot.Engine;
-import org.bot.component.screen.ScreenOverlay;
-import org.bot.util.Filter;
+import org.ubot.component.screen.ScreenOverlay;
 
 import java.awt.*;
 
@@ -15,17 +13,12 @@ public class InventoryOverlay extends ScreenOverlay<Item> {
 
     @Override
     public Item[] elements() {
-        return Inventory.getAllItems(new Filter<Item>() {
-            @Override
-            public boolean accept(Item i) {
-                return i.isValid() && i != null;
-            }
-        });
+        return Inventory.getAllItems(i -> i.isValid() && i != null);
     }
 
     @Override
     public boolean activate() {
-        return Engine.getServerProvider().isDebugInventory();
+        return false;
     }
 
     @Override

@@ -4,9 +4,7 @@ package org.alora.overlays;
 import org.alora.api.data.Game;
 import org.alora.api.data.Menu;
 import org.alora.api.interactive.Players;
-import org.alora.api.wrappers.NPC;
-import org.bot.Engine;
-import org.bot.component.screen.ScreenOverlay;
+import org.ubot.component.screen.ScreenOverlay;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,20 +32,14 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
         drawText("Location: " + Players.getLocal().getLocation());
         drawText("Plane: " + Game.getPlane());
         drawText("Logged In: " + Game.isLoggedIn() + " : " + Game.getLoginStage());
-        drawText("Cycle: " + Game.getClientCycle());
-        if (Players.getLocal().getInteracting() != null) {
-            if (Players.getLocal().getInteracting() instanceof NPC) {
-                String name = ((NPC) Players.getLocal().getInteracting()).getName();
-                drawText("Interacting:  " + name);
-            }
-        }
+
 
         return debuggedList.toArray(new String[debuggedList.size()]);
     }
 
     @Override
     public boolean activate() {
-        return Engine.getServerProvider().isDebugGameInfo();
+        return false;
     }
 
     @Override

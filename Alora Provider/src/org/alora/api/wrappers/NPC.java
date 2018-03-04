@@ -3,7 +3,7 @@ package org.alora.api.wrappers;
 import org.alora.api.definitions.NPCDefinition;
 import org.alora.api.interfaces.Identifiable;
 import org.alora.api.interfaces.Nameable;
-import org.bot.Engine;
+import org.alora.loader.Loader;
 
 /**
  * Created by Ethan on 2/27/2018.
@@ -17,7 +17,7 @@ public class NPC extends Actor implements Identifiable, Nameable {
         super(raw);
         this.index = index;
         if (raw != null) {
-            this.npcDefinition = new NPCDefinition(Engine.getReflectionEngine().getFieldValue("DG", "pI", raw));
+            this.npcDefinition = new NPCDefinition(Loader.getReflectionEngine().getFieldValue("DG", "pI", raw));
         }
     }
 

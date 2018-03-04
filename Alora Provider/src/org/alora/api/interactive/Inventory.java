@@ -2,9 +2,8 @@ package org.alora.api.interactive;
 
 import org.alora.api.wrappers.Item;
 import org.alora.api.wrappers.WidgetChild;
-import org.bot.Engine;
-import org.bot.util.Filter;
-import org.bot.util.Utilities;
+import org.ubot.util.Filter;
+import org.ubot.util.Utilities;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,9 +18,9 @@ public class Inventory {
 
     public static Item[] getAllItems(Filter<Item> filter) {
         java.util.List<Item> list = new ArrayList<>();
-        if (Engine.getServerProvider().getLoadedInterfaces().contains(300)) {
+        if (Widgets.getOpenInterfaces().contains(300)) {
             WIDGET_INVENTORY_INDEX = 301;
-        } else if (Engine.getServerProvider().getLoadedInterfaces().contains(15)) {
+        } else if (Widgets.getOpenInterfaces().contains(15)) {
             WIDGET_INVENTORY_INDEX = 674;
         } else {
             WIDGET_INVENTORY_INDEX = 149;

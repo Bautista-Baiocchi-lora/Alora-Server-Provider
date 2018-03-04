@@ -1,87 +1,77 @@
 package org.alora.loader;
 
-import org.alora.overlays.*;
-import org.bot.Engine;
-import org.bot.component.screen.ScreenOverlay;
-import org.bot.provider.loader.ServerLoader;
-import org.bot.provider.manifest.HookType;
-import org.bot.provider.manifest.Revision;
-import org.bot.provider.manifest.ServerManifest;
-import org.bot.util.injection.Injector;
 import org.objenesis.Objenesis;
 import org.objenesis.ObjenesisStd;
 import org.objenesis.instantiator.ObjectInstantiator;
+import org.ubot.client.provider.loader.ServerLoader;
+import org.ubot.client.provider.manifest.ServerManifest;
+import org.ubot.component.screen.ScreenOverlay;
+import org.ubot.util.injection.Injector;
+import org.ubot.util.reflection.ReflectionEngine;
 
 import javax.swing.*;
 import java.applet.Applet;
-import java.awt.*;
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Ethan on 7/6/2017.
+ * Created by Ethan on 3/2/2018.
  */
-@ServerManifest(author = "Ethan", serverName = "Alora", info = "Testing Applet", type = Applet.class, version = 0.1D, revision = Revision.OSRS, hookType = HookType.XML)
-public class Loader extends ServerLoader<Applet> {
-    private JPanel panel;
+@ServerManifest(author = "Ethan", serverName = "Alora", info = "A server provider for the server Alora.", version = 0.1D)
+public class Loader extends ServerLoader {
+    private static ReflectionEngine reflectionEngine;
 
-    public Loader() throws IOException {
+    public Loader() {
         super("http://brookmanbucks.com/landing/FuckAlora.jar", "https://pastebin.com/raw/bNgt0f4Y", "Alora");
     }
 
-    @Override
-    public List<Injector> getInjectables() {
-        List<Injector> injectors = new ArrayList<>();
-        return injectors;
+    public static ReflectionEngine getReflectionEngine() {
+        return reflectionEngine;
     }
 
     @Override
     public List<ScreenOverlay> getOverlays() {
         List<ScreenOverlay> overlays = super.getOverlays();
-        overlays.add(new PlayerInfoOverlay());
-        overlays.add(new GameObjectInfo());
-        overlays.add(new BasicInfoDebugger());
-        overlays.add(new NPCInfoOverlay());
-        overlays.add(new InventoryOverlay());
-
         return overlays;
     }
 
     @Override
-    protected Applet loadComponent() throws IllegalArgumentException, IllegalAccessException {
-        panel = new JPanel();
-        try {
-            panel.setLayout(new BorderLayout());
-            panel.setPreferredSize(new Dimension(765, 503));
-            final AloraApplet aloraApplet = new AloraApplet();
-            Class<?> clientLoader = Engine.getReflectionEngine().getClass("ClientLoader").getRespresentedClass();
-            Objenesis objenesis = new ObjenesisStd();
-            ObjectInstantiator instantiator = objenesis.getInstantiatorOf(clientLoader);
-            Object clientLoaderInstance = instantiator.newInstance();
-            Engine.getReflectionEngine().setFieldValue("ClientLoader", "addWindowListener", clientLoaderInstance);
-            populateProperties(aloraApplet);
-            Engine.getReflectionEngine().setFieldValue("ClientLoader", "BLACK", aloraApplet.properties, clientLoaderInstance);
-            Engine.getReflectionEngine().setFieldValue("ClientLoader", "add", new JFrame(), clientLoaderInstance);
-            Class<?> threadClass = Engine.getReflectionEngine().getClass("CH").getRespresentedClass();
-            Object aloraThread = threadClass.getConstructor(Applet.class, int.class, String.class, int.class).newInstance(aloraApplet, 32, "runescape", 26);
-            Engine.getReflectionEngine().setFieldValue("CB", "D", aloraThread);
-            Engine.getReflectionEngine().setFieldValue("GB", "L", aloraThread);
-            Object clientInstance = Engine.getReflectionEngine().getClass("MS").getNewInstance();
-            Engine.getReflectionEngine().setFieldValue("RD", "M", null);
-            Applet clientApplet = (Applet) clientInstance;
-            invokeSettings();
-            clientApplet.init();
-            return aloraApplet;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected List<Injector> getInjectables() {
         return null;
     }
 
-    private void invokeSettings() throws Exception {
-        Class<?> settings = Engine.getReflectionEngine().getClass("Settings").getRespresentedClass();
+    @Override
+    protected Applet loadApplet(ReflectionEngine reflectionEngine) throws IllegalAccessException {
+        Loader.reflectionEngine = reflectionEngine;
+        Applet applet = null;
+        try {
+            final AloraApplet aloraApplet = new AloraApplet();
+            Class<?> clientLoader = reflectionEngine.getClass("ClientLoader").getRespresentedClass();
+            Objenesis objenesis = new ObjenesisStd();
+            ObjectInstantiator instantiator = objenesis.getInstantiatorOf(clientLoader);
+            Object clientLoaderInstance = instantiator.newInstance();
+            reflectionEngine.setFieldValue("ClientLoader", "addWindowListener", clientLoaderInstance);
+            populateProperties(aloraApplet);
+            reflectionEngine.setFieldValue("ClientLoader", "BLACK", aloraApplet.properties, clientLoaderInstance);
+            reflectionEngine.setFieldValue("ClientLoader", "add", new JFrame(), clientLoaderInstance);
+            Class<?> threadClass = reflectionEngine.getClass("CH").getRespresentedClass();
+            Object aloraThread = threadClass.getConstructor(Applet.class, int.class, String.class, int.class).newInstance(aloraApplet, 32, "runescape", 26);
+            reflectionEngine.setFieldValue("CB", "D", aloraThread);
+            reflectionEngine.setFieldValue("GB", "L", aloraThread);
+            Object clientInstance = reflectionEngine.getClass("MS").getNewInstance();
+            reflectionEngine.setFieldValue("RD", "M", null);
+            Applet clientApplet = (Applet) clientInstance;
+            invokeSettings(reflectionEngine);
+            clientApplet.init();
+            applet = aloraApplet;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return applet;
+    }
+
+    private void invokeSettings(ReflectionEngine reflectionEngine) throws Exception {
+        Class<?> settings = reflectionEngine.getClass("Settings").getRespresentedClass();
         for (Method m : settings.getDeclaredMethods()) {
             if (m.getName().equals("I")) {
                 if (m.getParameterCount() == 0) {

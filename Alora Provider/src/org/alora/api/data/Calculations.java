@@ -2,7 +2,7 @@ package org.alora.api.data;
 
 import org.alora.api.interactive.Players;
 import org.alora.api.wrappers.Tile;
-import org.bot.Engine;
+import org.alora.loader.Loader;
 
 import java.awt.*;
 
@@ -59,8 +59,8 @@ public class Calculations {
     public static Point tileToMap(Tile tile) {
         int xMapTile = tile.getX() - Game.getBaseX();
         int yMapTile = tile.getY() - Game.getBaseY();
-        Object myPlayer = Engine.getReflectionEngine().getFieldValue("MS", "FI", null);
+        Object myPlayer = Loader.getReflectionEngine().getFieldValue("MS", "FI", null);
 
-        return worldToMap((xMapTile * 4 + 2) - (int) Engine.getReflectionEngine().getFieldValue("WS", "x", myPlayer) / 32, (yMapTile * 4 + 2) - (int) Engine.getReflectionEngine().getFieldValue("WS", "y", myPlayer) / 32);
+        return worldToMap((xMapTile * 4 + 2) - (int) Loader.getReflectionEngine().getFieldValue("WS", "x", myPlayer) / 32, (yMapTile * 4 + 2) - (int) Loader.getReflectionEngine().getFieldValue("WS", "y", myPlayer) / 32);
     }
 }

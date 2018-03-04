@@ -4,7 +4,7 @@ import org.alora.api.data.Calculations;
 import org.alora.api.data.Game;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Locatable;
-import org.bot.Engine;
+import org.alora.loader.Loader;
 
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -24,57 +24,57 @@ public class Actor implements Locatable, Interactable {
     public int getLocalX() {
         if (!isValid())
             return -1;
-        return (int) Engine.getReflectionEngine().getFieldValue("WS", "x", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "x", raw);
     }
 
     public int getLocalY() {
         if (!isValid())
             return -1;
-        return (int) Engine.getReflectionEngine().getFieldValue("WS", "y", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "y", raw);
     }
 
     public int getX() {
         if (!isValid())
             return -1;
-        return ((((int) Engine.getReflectionEngine().getFieldValue("WS", "x", raw)) >> 7) + Game.getBaseX());
+        return ((((int) Loader.getReflectionEngine().getFieldValue("WS", "x", raw)) >> 7) + Game.getBaseX());
     }
 
     public int getY() {
         if (!isValid())
             return -1;
-        return ((((int) Engine.getReflectionEngine().getFieldValue("WS", "y", raw)) >> 7) + Game.getBaseY());
+        return ((((int) Loader.getReflectionEngine().getFieldValue("WS", "y", raw)) >> 7) + Game.getBaseY());
     }
 
     public int getAnimation() {
         if (raw == null)
             return -1;
-        return (int) Engine.getReflectionEngine().getFieldValue("WS", "G", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "G", raw);
     }
 
     public int getOrientation() {
         if (!isValid())
             return -1;
-        return (int) Engine.getReflectionEngine().getFieldValue("WS", "q", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "q", raw);
     }
 
     public int getQueueSize() {
         if (!isValid())
             return -1;
-        return (int) Engine.getReflectionEngine().getFieldValue("WS", "BI", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "BI", raw);
     }
 
     public int getHealth() {
-        return (int) Engine.getReflectionEngine().getFieldValue("WS", "M", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "M", raw);
 
     }
 
     public int getMaxHealth() {
-        return (int) Engine.getReflectionEngine().getFieldValue("WS", "N", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "N", raw);
 
     }
 
     public int getInteractingIndex() {
-        return (int) Engine.getReflectionEngine().getFieldValue("WS", "H", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "H", raw);
     }
     public boolean isMoving() {
         if (!isValid())
@@ -86,7 +86,7 @@ public class Actor implements Locatable, Interactable {
         if (raw == null)
             return false;
         int loopCycleStatus = Game.getClientCycle() - 130;
-        int[] hitCycles = (int[]) Engine.getReflectionEngine().getFieldValue("WS", "E", raw);
+        int[] hitCycles = (int[]) Loader.getReflectionEngine().getFieldValue("WS", "E", raw);
         for (final int loopCycle : hitCycles) {
             if (loopCycle > loopCycleStatus) {
                 return true;
@@ -96,11 +96,11 @@ public class Actor implements Locatable, Interactable {
     }
 
     public void getIntValues() {
-        Class<?> c = Engine.getReflectionEngine().getClass("WS").getRespresentedClass();
+        Class<?> c = Loader.getReflectionEngine().getClass("WS").getRespresentedClass();
         for (Field f : c.getDeclaredFields()) {
             if (f.getGenericType().getTypeName().equals("int[]")) {
                 if (!f.toGenericString().contains("static")) {
-                    int[] i = (int[]) Engine.getReflectionEngine().getFieldValue("WS", f.getName(), raw);
+                    int[] i = (int[]) Loader.getReflectionEngine().getFieldValue("WS", f.getName(), raw);
                     System.out.println(Arrays.toString(i) + " : " + f.getName());
 
                 }
@@ -115,7 +115,7 @@ public class Actor implements Locatable, Interactable {
         if (interactingIndex == -1)
             return new Actor(null);
         if (interactingIndex < 32768) {
-            Object[] localNpcs = (Object[]) Engine.getReflectionEngine().getFieldValue("YB", "H", null);
+            Object[] localNpcs = (Object[]) Loader.getReflectionEngine().getFieldValue("YB", "H", null);
             if (localNpcs.length > interactingIndex)
                 return new NPC(interactingIndex, localNpcs[interactingIndex]);
         } else {

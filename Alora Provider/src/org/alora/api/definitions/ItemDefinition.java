@@ -1,6 +1,7 @@
 package org.alora.api.definitions;
 
-import org.bot.Engine;
+
+import org.alora.loader.Loader;
 
 import java.lang.reflect.Method;
 
@@ -15,8 +16,8 @@ public class ItemDefinition {
 
     public ItemDefinition(int id) {
         raw = getMethodValue(id);
-        name = (String) Engine.getReflectionEngine().getFieldValue("SE", "K", raw);
-//            options = (String[]) Engine.getReflectionEngine().getFieldValue("SE", "h", null);
+        name = (String) Loader.getReflectionEngine().getFieldValue("SE", "K", raw);
+//            options = (String[]) Loader.getReflectionEngine().getFieldValue("SE", "h", null);
     }
 
     public String getName() {
@@ -33,7 +34,7 @@ public class ItemDefinition {
 
     private Object getMethodValue(int id) {
         try {
-            Class<?> clazz = Engine.getReflectionEngine().getClass("SE").getRespresentedClass();
+            Class<?> clazz = Loader.getReflectionEngine().getClass("SE").getRespresentedClass();
             for (Method m : clazz.getDeclaredMethods()) {
                 if (m.getName().equals("B")) {
                     if (m.getParameterCount() == 1) {

@@ -3,9 +3,9 @@ package org.alora.api.interactive;
 import org.alora.api.data.Game;
 import org.alora.api.wrappers.GameObject;
 import org.alora.api.wrappers.Tile;
-import org.bot.Engine;
-import org.bot.util.Filter;
-import org.bot.util.Utilities;
+import org.alora.loader.Loader;
+import org.ubot.util.Filter;
+import org.ubot.util.Utilities;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -16,36 +16,21 @@ import java.util.Set;
 public class GameObjects {
 
     public static GameObject[] getAll() {
-        return getAll(new Filter<GameObject>() {
-            @Override
-            public boolean accept(GameObject gameObject) {
-                return true;
-            }
-        });
+        return getAll(gameObject -> true);
     }
 
     public static GameObject[] getAll(final String... names) {
-        return getAll(new Filter<GameObject>() {
-            @Override
-            public boolean accept(GameObject gameObject) {
-                return gameObject.isValid() && gameObject.getName() != null
-                        && Utilities.inArray(gameObject.getName(), names);
-            }
-        });
+        return getAll(gameObject -> gameObject.isValid() && gameObject.getName() != null
+                && Utilities.inArray(gameObject.getName(), names));
     }
 
     public static GameObject[] getAll(final int... ids) {
-        return getAll(new Filter<GameObject>() {
-            @Override
-            public boolean accept(GameObject gameObject) {
-                return gameObject.isValid() && Utilities.inArray(gameObject.getId(), ids);
-            }
-        });
+        return getAll(gameObject -> gameObject.isValid() && Utilities.inArray(gameObject.getId(), ids));
     }
 
     public static GameObject[] getAll(Filter<GameObject> filter) {
         Set<GameObject> objects = new LinkedHashSet<>();
-        Object[][][] tiles = (Object[][][]) Engine.getReflectionEngine().getFieldValue("TJ", "E", null);
+        Object[][][] tiles = (Object[][][]) Loader.getReflectionEngine().getFieldValue("TJ", "E", null);
         if (tiles == null) {
             System.out.println("tiles null");
             return objects.toArray(new GameObject[objects.size()]);
@@ -58,7 +43,7 @@ public class GameObjects {
                 Object groundTile = tiles[z][x][y];
                 if (groundTile != null) {
 
-                    Object[] gameObjects = (Object[]) Engine.getReflectionEngine().getFieldValue("KA", "B", groundTile);
+                    Object[] gameObjects = (Object[]) Loader.getReflectionEngine().getFieldValue("KA", "B", groundTile);
                     if (gameObjects != null) {
                         for (Object j : gameObjects) {
                             if (j != null) {
@@ -94,21 +79,11 @@ public class GameObjects {
     }
 
     public static GameObject getNearest(final int... ids) {
-        return getNearest(Players.getLocal().getLocation(), new Filter<GameObject>() {
-            @Override
-            public boolean accept(GameObject gameObject) {
-                return gameObject.isValid() && Utilities.inArray(gameObject.getId(), ids);
-            }
-        });
+        return getNearest(Players.getLocal().getLocation(), gameObject -> gameObject.isValid() && Utilities.inArray(gameObject.getId(), ids));
     }
 
     public static GameObject getNearest(final String... names) {
-        return getNearest(Players.getLocal().getLocation(), new Filter<GameObject>() {
-            @Override
-            public boolean accept(GameObject groundItem) {
-                return groundItem.isValid() && Utilities.inArray(groundItem.getName(), names);
-            }
-        });
+        return getNearest(Players.getLocal().getLocation(), groundItem -> groundItem.isValid() && Utilities.inArray(groundItem.getName(), names));
     }
 
 

@@ -1,7 +1,6 @@
 package org.alora.api.data;
 
 import org.alora.api.wrappers.Tile;
-import org.bot.ui.screens.clientframe.menu.logger.Logger;
 
 import java.awt.*;
 
@@ -37,7 +36,7 @@ public class Walking {
             y = point.y - localYPacket;
             addY = true;
         }
-        Logger.log(x + " : " + y);
+        //Logger.log(x + " : " + y);
         return new Point(x, y);
     }
 }

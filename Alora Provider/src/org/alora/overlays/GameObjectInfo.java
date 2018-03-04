@@ -2,13 +2,8 @@ package org.alora.overlays;
 
 
 import org.alora.api.interactive.GameObjects;
-import org.alora.api.interactive.GroundItems;
-import org.alora.api.interactive.Players;
 import org.alora.api.wrappers.GameObject;
-import org.alora.api.wrappers.GroundItem;
-import org.bot.Engine;
-import org.bot.component.screen.ScreenOverlay;
-import org.bot.ui.screens.clientframe.menu.logger.Logger;
+import org.ubot.component.screen.ScreenOverlay;
 
 import java.awt.*;
 
@@ -25,7 +20,7 @@ public class GameObjectInfo extends ScreenOverlay<GameObject> {
 
     @Override
     public boolean activate() {
-        if (!Engine.getServerProvider().isDebugObjects()) {
+        if (false) {
             b = false;
         } else {
             return true;
@@ -37,11 +32,6 @@ public class GameObjectInfo extends ScreenOverlay<GameObject> {
     public void render(Graphics2D graphics) {
         if (!b) {
             b = true;
-            for (GroundItem g : GroundItems.getAll()) {
-                if (g != null && g.isValid()) {
-                    Logger.log(g.getId() + " : " + g.getName() + " : " + Players.getLocal().getLocation().distanceTo(g.getLocation()));
-                }
-            }
         }
     }
 }
