@@ -4,7 +4,7 @@ package org.alora.overlays;
 import org.alora.api.data.Game;
 import org.alora.api.data.Menu;
 import org.alora.api.interactive.Players;
-import org.ubot.component.screen.ScreenOverlay;
+import org.ubot.bot.component.screen.ScreenOverlay;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,10 +16,13 @@ import java.util.List;
 public class BasicInfoDebugger extends ScreenOverlay<String> {
     private final List<String> debuggedList = new ArrayList<>();
 
+    public BasicInfoDebugger() {
+        super("Game");
+    }
+
     @Override
     public String[] elements() {
         debuggedList.clear();
-
         drawText("We Got Canvas going.");
         drawText("Int One: " + Menu.intValueOne());
         drawText("Int Two: " + Menu.intValueTwo());
@@ -35,11 +38,6 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
 
 
         return debuggedList.toArray(new String[debuggedList.size()]);
-    }
-
-    @Override
-    public boolean activate() {
-        return false;
     }
 
     @Override

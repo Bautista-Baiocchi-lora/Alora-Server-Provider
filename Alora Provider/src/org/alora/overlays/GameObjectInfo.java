@@ -3,7 +3,7 @@ package org.alora.overlays;
 
 import org.alora.api.interactive.GameObjects;
 import org.alora.api.wrappers.GameObject;
-import org.ubot.component.screen.ScreenOverlay;
+import org.ubot.bot.component.screen.ScreenOverlay;
 
 import java.awt.*;
 
@@ -13,20 +13,15 @@ import java.awt.*;
 public class GameObjectInfo extends ScreenOverlay<GameObject> {
     private boolean b = false;
 
+    public GameObjectInfo() {
+        super("Objects");
+    }
+
     @Override
     public GameObject[] elements() {
         return GameObjects.getAll();
     }
 
-    @Override
-    public boolean activate() {
-        if (false) {
-            b = false;
-        } else {
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public void render(Graphics2D graphics) {

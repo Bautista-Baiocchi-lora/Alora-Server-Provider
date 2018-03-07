@@ -2,7 +2,7 @@ package org.alora.overlays;
 
 import org.alora.api.interactive.Inventory;
 import org.alora.api.wrappers.Item;
-import org.ubot.component.screen.ScreenOverlay;
+import org.ubot.bot.component.screen.ScreenOverlay;
 
 import java.awt.*;
 
@@ -11,15 +11,15 @@ import java.awt.*;
  */
 public class InventoryOverlay extends ScreenOverlay<Item> {
 
+    public InventoryOverlay() {
+        super("Inventory");
+    }
+
     @Override
     public Item[] elements() {
         return Inventory.getAllItems(i -> i.isValid() && i != null);
     }
 
-    @Override
-    public boolean activate() {
-        return false;
-    }
 
     @Override
     public void render(Graphics2D graphics) {
@@ -29,7 +29,7 @@ public class InventoryOverlay extends ScreenOverlay<Item> {
             if (i.isValid()) {
                 graphics.setColor(Color.GREEN);
                 Point point = i.getCentralPoint();
-                String id = "" + i.getHash();
+                String id = i.getId() + "";
                 graphics.drawString(id,
                         point.x - (metrics.stringWidth(String.valueOf(i.getId())) / 2), point.y + 5);
                 graphics.drawRect(i.getArea().x, i.getArea().y, i.getArea().width, i.getArea().height);

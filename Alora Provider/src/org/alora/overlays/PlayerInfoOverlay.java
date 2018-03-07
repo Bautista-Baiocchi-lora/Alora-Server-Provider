@@ -2,7 +2,7 @@ package org.alora.overlays;
 
 import org.alora.api.interactive.Players;
 import org.alora.api.wrappers.Player;
-import org.ubot.component.screen.ScreenOverlay;
+import org.ubot.bot.component.screen.ScreenOverlay;
 
 import java.awt.*;
 
@@ -12,14 +12,13 @@ import java.awt.*;
 public class PlayerInfoOverlay extends ScreenOverlay<Player> {
     private boolean b;
 
-    @Override
-    public Player[] elements() {
-        return Players.getAll();
+    public PlayerInfoOverlay() {
+        super("Players");
     }
 
     @Override
-    public boolean activate() {
-        return false;
+    public Player[] elements() {
+        return Players.getAll();
     }
 
     @Override
