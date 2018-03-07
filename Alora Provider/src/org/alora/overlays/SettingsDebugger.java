@@ -5,6 +5,7 @@ package org.alora.overlays;
  */
 
 
+import org.alora.api.data.Game;
 import org.alora.api.data.Settings;
 import org.ubot.bot.component.screen.ScreenOverlay;
 import org.ubot.client.ui.logger.Logger;
@@ -33,6 +34,8 @@ public class SettingsDebugger extends ScreenOverlay<String> {
 
     @Override
     public void render(Graphics2D graphics) {
+        if (!Game.isLoggedIn())
+            return;
         if (settingCache.isEmpty()) {
             for (int i = 0; i < Settings.getAll().length; i++) {
                 settingCache.put(i, Settings.get(i));

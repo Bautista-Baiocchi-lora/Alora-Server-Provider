@@ -1,5 +1,6 @@
 package org.alora.overlays;
 
+import org.alora.api.data.Game;
 import org.alora.api.interactive.Inventory;
 import org.alora.api.wrappers.Item;
 import org.ubot.bot.component.screen.ScreenOverlay;
@@ -23,6 +24,8 @@ public class InventoryOverlay extends ScreenOverlay<Item> {
 
     @Override
     public void render(Graphics2D graphics) {
+        if (!Game.isLoggedIn())
+            return;
         final FontMetrics metrics = graphics.getFontMetrics();
 
         for (Item i : refresh()) {

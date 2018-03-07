@@ -18,7 +18,8 @@ public class GroundItems {
 
     public static GroundItem[] getAll(Filter<GroundItem> filter) {
         List<GroundItem> groundItems = new ArrayList<>();
-
+        if (!Game.isLoggedIn())
+            return groundItems.toArray(new GroundItem[groundItems.size()]);
         Object[][][] groundArrayObjects = (Object[][][]) Loader.getReflectionEngine().getFieldValue("VB", "L");
 
         int z = Game.getPlane();
@@ -68,10 +69,14 @@ public class GroundItems {
     }
 
     public static GroundItem getNearest(Filter<GroundItem> filter) {
+        if (!Game.isLoggedIn())
+            return nil();
         return getNearest(Players.getLocal().getLocation(), filter);
     }
 
     public static GroundItem getNearest(Tile start, Filter<GroundItem> filter) {
+        if (!Game.isLoggedIn())
+            return nil();
         GroundItem closet = new GroundItem(null, null);
         int distance = 16;
         for (GroundItem groundItem : getAll(filter)) {
@@ -84,14 +89,20 @@ public class GroundItems {
     }
 
     public static GroundItem getNearest(final int... ids) {
+        if (!Game.isLoggedIn())
+            return nil();
         return getNearest(Players.getLocal().getLocation(), groundItem -> groundItem.isValid() && Utilities.inArray(groundItem.getId(), ids));
     }
 
     public static GroundItem getNearest(final String... names) {
+        if (!Game.isLoggedIn())
+            return nil();
         return getNearest(Players.getLocal().getLocation(), groundItem -> groundItem.isValid() && Utilities.inArray(groundItem.getName(), names));
     }
 
     public static GroundItem getAt(final Tile tile) {
+        if (!Game.isLoggedIn())
+            return nil();
         return getNearest(Players.getLocal().getLocation(), obj -> obj != null && tile.equals(obj.getLocation()));
     }
 

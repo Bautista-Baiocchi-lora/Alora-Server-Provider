@@ -22,6 +22,8 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
 
     @Override
     public String[] elements() {
+        if (!Game.isLoggedIn())
+            return new String[0];
         debuggedList.clear();
         drawText("We Got Canvas going.");
         drawText("Int One: " + Menu.intValueOne());
@@ -34,7 +36,7 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
         drawText("BaseY: " + Game.getBaseY());
         drawText("Location: " + Players.getLocal().getLocation());
         drawText("Plane: " + Game.getPlane());
-        drawText("Logged In: " + Game.isLoggedIn() + " : " + Game.getLoginStage());
+        drawText("Logged In: " + Game.isLoggedIn() + " : " + Game.getGameState());
 
 
         return debuggedList.toArray(new String[debuggedList.size()]);
@@ -42,6 +44,8 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
 
     @Override
     public void render(Graphics2D graphics) {
+        if (!Game.isLoggedIn())
+            return;
         graphics.setColor(Color.orange);
         int yOff = 30;
 

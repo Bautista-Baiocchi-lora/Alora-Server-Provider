@@ -18,6 +18,8 @@ public class Settings {
     }
 
     public static int[] getAll() {
+        if (!Game.isLoggedIn())
+            return new int[0];
         return (int[]) Loader.getReflectionEngine().getFieldValue("YZ", "J", null);
     }
 

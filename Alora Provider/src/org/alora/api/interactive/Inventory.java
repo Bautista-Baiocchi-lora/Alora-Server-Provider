@@ -1,5 +1,6 @@
 package org.alora.api.interactive;
 
+import org.alora.api.data.Game;
 import org.alora.api.wrappers.Item;
 import org.alora.api.wrappers.WidgetChild;
 import org.ubot.util.Filter;
@@ -18,6 +19,8 @@ public class Inventory {
 
     public static Item[] getAllItems(Filter<Item> filter) {
         java.util.List<Item> list = new ArrayList<>();
+        if (!Game.isLoggedIn())
+            return list.toArray(new Item[list.size()]);
         if (Widgets.getOpenInterfaces().contains(300)) {
             WIDGET_INVENTORY_INDEX = 301;
         } else if (Widgets.getOpenInterfaces().contains(15)) {

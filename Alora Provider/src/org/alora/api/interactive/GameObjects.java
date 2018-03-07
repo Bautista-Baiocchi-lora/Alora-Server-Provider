@@ -30,6 +30,8 @@ public class GameObjects {
 
     public static GameObject[] getAll(Filter<GameObject> filter) {
         Set<GameObject> objects = new LinkedHashSet<>();
+        if (!Game.isLoggedIn())
+            return objects.toArray(new GameObject[objects.size()]);
         Object[][][] tiles = (Object[][][]) Loader.getReflectionEngine().getFieldValue("TJ", "E", null);
         if (tiles == null) {
             System.out.println("tiles null");
@@ -63,10 +65,14 @@ public class GameObjects {
     }
 
     public static GameObject getNearest(Filter<GameObject> filter) {
+        if (!Game.isLoggedIn())
+            return nil();
         return getNearest(Players.getLocal().getLocation(), filter);
     }
 
     public static GameObject getNearest(Tile start, Filter<GameObject> filter) {
+        if (!Game.isLoggedIn())
+            return nil();
         GameObject closet = new GameObject(null, -1, -1, -1);
         int distance = 255;
         for (GameObject gameObject : getAll(filter)) {
@@ -79,10 +85,14 @@ public class GameObjects {
     }
 
     public static GameObject getNearest(final int... ids) {
+        if (!Game.isLoggedIn())
+            return nil();
         return getNearest(Players.getLocal().getLocation(), gameObject -> gameObject.isValid() && Utilities.inArray(gameObject.getId(), ids));
     }
 
     public static GameObject getNearest(final String... names) {
+        if (!Game.isLoggedIn())
+            return nil();
         return getNearest(Players.getLocal().getLocation(), groundItem -> groundItem.isValid() && Utilities.inArray(groundItem.getName(), names));
     }
 

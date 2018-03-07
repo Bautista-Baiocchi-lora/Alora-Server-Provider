@@ -1,6 +1,7 @@
 package org.alora.overlays;
 
 
+import org.alora.api.data.Game;
 import org.alora.api.data.Walking;
 import org.alora.api.interactive.GameObjects;
 import org.alora.api.wrappers.GameObject;
@@ -27,6 +28,8 @@ public class GameObjectInfo extends ScreenOverlay<GameObject> {
 
     @Override
     public void render(Graphics2D graphics) {
+        if (!Game.isLoggedIn())
+            return;
         if (!b) {
             Walking.walkTo(new Tile(3116, 3522));
             b = true;

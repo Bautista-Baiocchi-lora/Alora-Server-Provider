@@ -14,6 +14,7 @@ public enum Prayers {
     PROTECT_ITEM(25, 91, 25), PROTECT_FROM_MAGIC(37, 95, 37), PROTECT_FROM_RANGE(39, 96, 40),
     PROTECT_FROM_MELEE(41, 97, 43), EAGLE_EYE(43, 866, 44), MYSTIC_MIGHT(45, 867, 45),
     PIETY(55, 1053, 70);
+
     private final int PRAYER_TAB = 271;
     private int index;
     private int varp;
@@ -30,6 +31,8 @@ public enum Prayers {
     }
 
     public static void toggleQuickPrayer() {
+        if (!Game.isLoggedIn())
+            return;
         if (usingQuickPrayer()) {
             WidgetChild wc = Widgets.getWidgetWithAction("Activate Quick-prayers");
             if (wc != null) {
@@ -38,7 +41,7 @@ public enum Prayers {
         }
     }
 
-    public static void printAllPrayers() {
+    private static void printAllPrayers() {
         int i = 0;
         for (WidgetChild wc : Widgets.get(271).getChildren()) {
             System.out.println(i + " : " + wc.getHash() + " : " + wc.getText() + " : " + Arrays.toString(wc.getActions()));
@@ -47,6 +50,8 @@ public enum Prayers {
     }
 
     public void activate() {
+        if (!Game.isLoggedIn())
+            return;
         if (!isActive()) {
             Menu.sendWidgetInteraction("", getHash());
         } else {
@@ -55,6 +60,8 @@ public enum Prayers {
     }
 
     public void deactivate() {
+        if (!Game.isLoggedIn())
+            return;
         if (isActive()) {
             Menu.sendWidgetInteraction("", getHash());
         }
@@ -65,10 +72,14 @@ public enum Prayers {
     }
 
     private int getHash() {
+        if (!Game.isLoggedIn())
+            return -1;
         return getPrayer().getHash();
     }
 
     public boolean isActive() {
+        if (!Game.isLoggedIn())
+            return false;
         return Settings.get(varp) != 0;
     }
 
