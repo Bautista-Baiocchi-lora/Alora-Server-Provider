@@ -24,23 +24,6 @@ public class Game {
         return (int) Loader.getReflectionEngine().getFieldValue("CS", "C", null);
     }
 
-    public static int getMapScale() {
-        return (int) Loader.getReflectionEngine().getFieldValue("TD", "H", null);
-    }
-
-    public static int getMapScaleDelta() {
-        return (int) Loader.getReflectionEngine().getFieldValue("SC", "F", null);
-    }
-
-    public static int getMapAngle() {
-        return (int) Loader.getReflectionEngine().getFieldValue("AH", "Z", null);
-    }
-
-
-    public static int getID() {
-        return (int) Loader.getReflectionEngine().getFieldValue("DE", "D", null);
-    }
-
     public static int getGameState() {
         return (int) Loader.getReflectionEngine().getFieldValue("MS", "LI", null);
 
@@ -67,6 +50,7 @@ public class Game {
     public static boolean isRunning() {
         return Settings.get(173) > 0;
     }
+    
     public static boolean isLoggedIn() {
         return getGameState() == STATE_LOGGED_IN;
     }
