@@ -12,8 +12,8 @@ import java.util.List;
  * Created by Ethan on 2/28/2018.
  */
 public class Widgets {
-    public static List<String> getOpenInterfaces() {
-        return (List<String>) Loader.getReflectionEngine().getFieldValue("org.alora.api.callbacks.InterfacesCallback", "loadedInterfaces");
+    public static List<Integer> getOpenInterfaces() {
+        return (List<Integer>) Loader.getReflectionEngine().getFieldValue("org.alora.api.callbacks.InterfacesCallback", "loadedInterfaces");
     }
     public static Widget[] get() {
         Object[][] widgets = (Object[][]) Loader.getReflectionEngine().getFieldValue("IH", "sZ", null);
@@ -84,7 +84,7 @@ public class Widgets {
     }
 
     public static boolean hasSpecialInteract(String str, int widget) {
-        WidgetChild[] a1 = get(widget).getChildren();//219
+        WidgetChild[] a1 = get(widget).getChildren();
         for (WidgetChild c : a1) {
             if (c != null && c.getChildren().length > 0) {
                 for (WidgetChild c1 : c.getChildren()) {

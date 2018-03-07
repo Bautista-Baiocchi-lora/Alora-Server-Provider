@@ -27,7 +27,7 @@ public class InventoryOverlay extends ScreenOverlay<Item> {
 
         for (Item i : refresh()) {
             if (i.isValid()) {
-                graphics.setColor(Color.GREEN);
+                graphics.setColor(Color.BLUE.darker());
                 Point point = i.getCentralPoint();
                 String id = i.getId() + "";
                 graphics.drawString(id,
