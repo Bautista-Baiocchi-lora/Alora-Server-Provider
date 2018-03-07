@@ -2,11 +2,11 @@ package org.alora.api.wrappers;
 
 import org.alora.api.data.Calculations;
 import org.alora.api.data.Game;
+import org.alora.api.data.Walking;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Locatable;
 import org.alora.loader.Loader;
 
-import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
@@ -14,6 +14,7 @@ import java.util.Arrays;
  * Created by Ethan on 2/27/2018.
  */
 public class Actor implements Locatable, Interactable {
+
 
     private final Object raw;
 
@@ -134,16 +135,10 @@ public class Actor implements Locatable, Interactable {
         return false;
     }
 
-    @Override
-    public boolean isOnScreen() {
-        return false;
-    }
 
-    @Override
-    public Point getPointOnScreen() {
-        return getLocation().getPointOnScreen();
+    public boolean walkTo() {
+        return Walking.walkTo(this);
     }
-
 
     @Override
     public int distanceTo() {
@@ -161,24 +156,10 @@ public class Actor implements Locatable, Interactable {
     }
 
     @Override
-    public boolean turnTo() {
-        return false;
-    }
-
-    @Override
     public Tile getLocation() {
         return new Tile(getX(), getY());
     }
 
-    @Override
-    public void draw(Graphics2D g, Color color) {
-
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-
-    }
 
     @Override
     public boolean canReach() {

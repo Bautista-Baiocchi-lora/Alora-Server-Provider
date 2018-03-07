@@ -2,13 +2,12 @@ package org.alora.api.wrappers;
 
 import org.alora.api.data.Calculations;
 import org.alora.api.data.Menu;
+import org.alora.api.data.Walking;
 import org.alora.api.interfaces.Identifiable;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Locatable;
 import org.alora.api.interfaces.Nameable;
 import org.alora.loader.Loader;
-
-import java.awt.*;
 
 
 /**
@@ -60,6 +59,9 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
         return "null";
     }
 
+    public boolean walkTo() {
+        return Walking.walkTo(this);
+    }
     public String[] getActions() {
         if (objectDefInstance() != null) {
             return (String[]) Loader.getReflectionEngine().getFieldValue("JG", "R", objectDefInstance());
@@ -91,16 +93,6 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
         return raw != null;
     }
 
-    @Override
-    public boolean isOnScreen() {
-        return false;
-    }
-
-    @Override
-    public Point getPointOnScreen() {
-        return null;
-    }
-
 
     @Override
     public int distanceTo() {
@@ -117,23 +109,8 @@ public class GameObject implements Identifiable, Nameable, Locatable, Interactab
         return Calculations.distanceBetween(tile, getLocation());
     }
 
-    @Override
-    public boolean turnTo() {
-        return false;
-    }
-
     public Tile getLocation() {
         return tile;
-    }
-
-    @Override
-    public void draw(Graphics2D g, Color color) {
-
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-
     }
 
     @Override

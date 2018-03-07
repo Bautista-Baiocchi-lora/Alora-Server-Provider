@@ -3,14 +3,13 @@ package org.alora.api.wrappers;
 import org.alora.api.data.Calculations;
 import org.alora.api.data.Game;
 import org.alora.api.data.Menu;
+import org.alora.api.data.Walking;
 import org.alora.api.definitions.ItemDefinition;
 import org.alora.api.interfaces.Identifiable;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Locatable;
 import org.alora.api.interfaces.Nameable;
 import org.alora.loader.Loader;
-
-import java.awt.*;
 
 
 /**
@@ -72,16 +71,6 @@ public class GroundItem implements Locatable, Identifiable, Nameable, Interactab
     }
 
     @Override
-    public boolean isOnScreen() {
-        return false;
-    }
-
-    @Override
-    public Point getPointOnScreen() {
-        return null;
-    }
-
-    @Override
     public int distanceTo() {
         return Calculations.distanceTo(location);
     }
@@ -97,23 +86,12 @@ public class GroundItem implements Locatable, Identifiable, Nameable, Interactab
     }
 
     @Override
-    public boolean turnTo() {
-        return false;
-    }
-
-    @Override
     public Tile getLocation() {
         return location;
     }
 
-    @Override
-    public void draw(Graphics2D g, Color color) {
-
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-
+    public boolean walkTo() {
+        return Walking.walkTo(this);
     }
 
     @Override

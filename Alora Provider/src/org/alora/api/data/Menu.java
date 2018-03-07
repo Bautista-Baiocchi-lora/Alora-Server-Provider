@@ -55,6 +55,9 @@ public class Menu {
         }
     }
 
+    public static void sendWalkingInteraction(int x, int y) {
+        Menu.sendInteraction(x, y, 60, 1, "", "Walk here");
+    }
     public static void sendWidgetInteraction(String option, int hash) {
         switch (option.toLowerCase()) {
             case "continue":

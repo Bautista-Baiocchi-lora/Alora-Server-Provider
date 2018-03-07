@@ -10,8 +10,6 @@ import org.alora.api.data.Game;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Locatable;
 
-import java.awt.*;
-
 public class Tile implements Locatable, Interactable {
     int x;
     int y;
@@ -47,16 +45,6 @@ public class Tile implements Locatable, Interactable {
     }
 
     @Override
-    public boolean isOnScreen() {
-        return false;
-    }
-
-    @Override
-    public Point getPointOnScreen() {
-        return null;
-    }
-
-    @Override
     public int distanceTo() {
         return Calculations.distanceTo(this);
     }
@@ -72,24 +60,10 @@ public class Tile implements Locatable, Interactable {
     }
 
     @Override
-    public boolean turnTo() {
-        return false;
-    }
-
-    @Override
     public Tile getLocation() {
         return this;
     }
 
-    @Override
-    public void draw(Graphics2D g, Color color) {
-
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-
-    }
 
     @Override
     public boolean canReach() {

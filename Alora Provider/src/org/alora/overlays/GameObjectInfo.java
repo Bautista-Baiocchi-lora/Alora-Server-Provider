@@ -1,11 +1,11 @@
 package org.alora.overlays;
 
 
-import org.alora.api.data.Prayers;
+import org.alora.api.data.Walking;
 import org.alora.api.interactive.GameObjects;
 import org.alora.api.wrappers.GameObject;
+import org.alora.api.wrappers.Tile;
 import org.ubot.bot.component.screen.ScreenOverlay;
-import org.ubot.util.Condition;
 
 import java.awt.*;
 
@@ -28,10 +28,8 @@ public class GameObjectInfo extends ScreenOverlay<GameObject> {
     @Override
     public void render(Graphics2D graphics) {
         if (!b) {
-            System.out.println(Prayers.PIETY.isActive());
-            System.out.println();
-            Prayers.PIETY.activate();
-            Condition.sleep(1000);
+            Walking.walkTo(new Tile(3116, 3522));
+            b = true;
         }
     }
 }

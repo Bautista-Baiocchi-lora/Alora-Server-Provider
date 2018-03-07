@@ -6,13 +6,7 @@ package org.alora.api.interfaces;
 
 import org.alora.api.wrappers.Tile;
 
-import java.awt.*;
-
 public interface Locatable {
-
-    boolean isOnScreen();
-
-    Point getPointOnScreen();
 
     int distanceTo();
 
@@ -20,13 +14,7 @@ public interface Locatable {
 
     int distanceTo(Tile tile);
 
-    boolean turnTo();
-
     Tile getLocation();
-
-    void draw(Graphics2D g, Color color);
-
-    void draw(Graphics2D g);
 
     boolean canReach();
 

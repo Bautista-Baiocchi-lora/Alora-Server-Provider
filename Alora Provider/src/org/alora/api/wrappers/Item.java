@@ -71,4 +71,6 @@ public class Item implements Identifiable, Nameable, Interactable {
     public Point getCentralPoint() {
         return new Point((int) getArea().getCenterX(), (int) getArea().getCenterY());
     }
+
+
 }

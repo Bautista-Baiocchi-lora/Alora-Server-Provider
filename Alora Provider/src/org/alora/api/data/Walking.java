@@ -1,42 +1,35 @@
 package org.alora.api.data;
 
+import org.alora.api.interactive.Players;
+import org.alora.api.interfaces.Locatable;
 import org.alora.api.wrappers.Tile;
 
-import java.awt.*;
 
 /**
  * Created by Ethan on 3/2/2018.
  */
 public class Walking {
-    private static final int localXPacket = 46;
-    private static final int localYPacket = 53;
-    private static final int localX = 648;
-    private static final int localY = 83;
-    private static boolean addX = false;
-    private static boolean addY = false;
 
-    public static void walkTo(Tile t) {
-
+    public static boolean walkTo(Tile t) {
+        final int x = t.getX() - Game.getBaseX();
+        final int y = t.getY() - Game.getBaseY();
+        Menu.sendWalkingInteraction(y, x);
+        return true;
     }
 
-    private static Point getPacketPoint(Point point) {
-        int x;
-        int y;
-        if (localXPacket > point.x) {
-            x = localXPacket - point.x;
-            addX = false;
-        } else {
-            x = point.x - localXPacket;
-            addX = true;
+    public static boolean walkTo(Locatable locatable) {
+        final int x = locatable.getLocation().getX() - Game.getBaseX();
+        final int y = locatable.getLocation().getY() - Game.getBaseY();
+        Menu.sendWalkingInteraction(y, x);
+        return true;
+    }
+
+    public static Tile getClosestTileOnMap(Tile current) {
+        if (!Calculations.isInWalkingDistance(current)) {
+            Tile loc = Players.getLocal().getLocation();
+            Tile walk = new Tile((loc.getX() + current.getX()) / 2, (loc.getY() + current.getY()) / 2);
+            return Calculations.isInWalkingDistance(current) ? walk : getClosestTileOnMap(walk);
         }
-        if (localYPacket > point.y) {
-            y = localYPacket - point.y;
-            addY = false;
-        } else {
-            y = point.y - localYPacket;
-            addY = true;
-        }
-        //Logger.log(x + " : " + y);
-        return new Point(x, y);
+        return current;
     }
 }
