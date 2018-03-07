@@ -41,8 +41,8 @@ public class Game {
         return (int) Loader.getReflectionEngine().getFieldValue("DE", "D", null);
     }
 
-    public static int getLoginStage() {
-        return (int) Loader.getReflectionEngine().getFieldValue("ID", "H", null);
+    public static int getGameState() {
+        return (int) Loader.getReflectionEngine().getFieldValue("MS", "LI", null);
 
     }
     public static int getPlane() {
@@ -68,6 +68,6 @@ public class Game {
         return Settings.get(173) > 0;
     }
     public static boolean isLoggedIn() {
-        return getLoginStage() == STATE_LOGGED_IN;
+        return getGameState() == STATE_LOGGED_IN;
     }
 }
