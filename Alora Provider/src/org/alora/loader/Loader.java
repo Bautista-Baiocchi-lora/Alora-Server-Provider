@@ -9,6 +9,8 @@ import org.ubot.client.provider.loader.ServerLoader;
 import org.ubot.client.provider.manifest.ServerManifest;
 import org.ubot.util.Condition;
 import org.ubot.util.injection.Injector;
+import org.ubot.util.reflection.Modifiers;
+import org.ubot.util.reflection.ReflectedMethod;
 import org.ubot.util.reflection.ReflectionEngine;
 
 import javax.swing.*;
@@ -56,34 +58,36 @@ public class Loader extends ServerLoader {
         SwingUtilities.invokeLater(() -> {
             try {
                 Applet applet;
-                JFrame fakeFrame = new JFrame();
+                JFrame fakeFrame = new JFrame(); //we gotta create a fake jFrame, because they check if a frame != null in client somewheere
                 fakeFrame.setPreferredSize(new Dimension(765, 503));
                 try {
-                    final AloraApplet aloraApplet = new AloraApplet();
+                    final AloraApplet aloraApplet = new AloraApplet(); //this isn't really a applet, but a place we store parameters, and something to pass to CH
                     Class<?> clientLoader = reflectionEngine.getClass("ClientLoader").getRespresentedClass();
                     Objenesis objenesis = new ObjenesisStd();
                     ObjectInstantiator instantiator = objenesis.getInstantiatorOf(clientLoader);
-                    Object clientLoaderInstance = instantiator.newInstance();
-                    reflectionEngine.setFieldValue("ClientLoader", "addWindowListener", clientLoaderInstance);
-                    populateProperties(aloraApplet);
-                    reflectionEngine.setFieldValue("ClientLoader", "BLACK", aloraApplet.properties, clientLoaderInstance);
-                    reflectionEngine.setFieldValue("ClientLoader", "add", fakeFrame, clientLoaderInstance);
-                    Class<?> threadClass = reflectionEngine.getClass("CH").getRespresentedClass();
-                    Object aloraThread = threadClass.getConstructor(Applet.class, int.class, String.class, int.class).newInstance(aloraApplet, 32, "runescape", 26);
-                    reflectionEngine.setFieldValue("CB", "D", aloraThread);
-                    reflectionEngine.setFieldValue("GB", "L", aloraThread);
-                    Object clientInstance = reflectionEngine.getClass("MS").getRespresentedClass().newInstance();
-                    Applet clientApplet = (Applet) clientInstance;
-                    invokeSettings(reflectionEngine);
-                    clientApplet.init();
+                    Object clientLoaderInstance = instantiator.newInstance(); //creating the blank constructor instance
+                    reflectionEngine.setFieldValue("ClientLoader", "addWindowListener", clientLoaderInstance); //this is the ClientLoader.class instance
+                    populateProperties(aloraApplet); // populating the properties
+                    reflectionEngine.setFieldValue("ClientLoader", "BLACK", aloraApplet.properties); //BLACK == properties
+                    reflectionEngine.setFieldValue("ClientLoader", "add", fakeFrame, clientLoaderInstance); // add == the JFrame they check if null
+                    Class<?> threadClass = reflectionEngine.getClass("CH").getRespresentedClass(); //CH.class, they applet thread
+                    Object aloraThread = threadClass.getConstructor(Applet.class, int.class, String.class, int.class).newInstance(aloraApplet, 32, "runescape", 26); //creating a new instance using standard reflection
+                    reflectionEngine.setFieldValue("CB", "D", aloraThread); //MS.I(localCH) - sets 2 fields to the CH instnace in ClientLoader, I set both here
+                    reflectionEngine.setFieldValue("GB", "L", aloraThread);//and here
+                    Object clientInstance = reflectionEngine.getClass("MS").getRespresentedClass().newInstance(); //MS = Client.class, create a new isntance of it
+                    Applet clientApplet = (Applet) clientInstance; //cast that instacne to applet
+                    invokeSettings(reflectionEngine);//Settings.I(), in Alora's client, we invoke it like they do.
+                    clientApplet.init(); //Client.class applet, init start
                     clientApplet.start();
-                    applet = aloraApplet;
+                    applet = aloraApplet;//setting the applet we return to the uBot
                     clientApplet.setPreferredSize(new Dimension(765, 503));
                     applet.setPreferredSize(new Dimension(765, 503));
                     Loader.applet = applet;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                fakeFrame.dispose();
+                System.out.println("Showing:"+fakeFrame.isShowing());
             } catch (Exception e) {
                 System.out.println("Substance Graphite failed to initialize");
             }
@@ -94,15 +98,8 @@ public class Loader extends ServerLoader {
         return applet;
     }
     private void invokeSettings(ReflectionEngine reflectionEngine) throws Exception {
-        Class<?> settings = reflectionEngine.getClass("Settings").getRespresentedClass();
-        for (Method m : settings.getDeclaredMethods()) {
-            if (m.getName().equals("I")) {
-                if (m.getParameterCount() == 0) {
-                    m.setAccessible(true);
-                    m.invoke(null);
-                }
-            }
-        }
+    	ReflectedMethod settings = reflectionEngine.getClass("Settings").getMethod(new Modifiers.ModifierBuilder().name("I").parameterCount(0).build());
+        settings.invoke(null);
     }
 
     private void populateProperties(AloraApplet applet) {
