@@ -81,6 +81,16 @@ public class Menu {
         }
     }
 
+    public static void sendBankInteraction(int slot, int widgetHash, String action, int index) {
+        if (!Game.isLoggedIn())
+            return;
+        for (ItemOptions option : ItemOptions.values()) {
+            if (option.getName().trim().equals(action.toLowerCase().trim())) {
+                sendInteraction(slot, widgetHash, option.getIndex(), index, "", "");
+            }
+        }
+    }
+
     public static long longValue() {
         if (!Game.isLoggedIn())
             return -1;

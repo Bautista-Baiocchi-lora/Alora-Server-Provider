@@ -39,7 +39,7 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
         drawText("Plane: " + Game.getPlane());
         drawText("Logged In: " + Game.isLoggedIn() + " : " + Game.getGameState());
 
-
+        //192 - mage book
         return debuggedList.toArray(new String[debuggedList.size()]);
     }
 

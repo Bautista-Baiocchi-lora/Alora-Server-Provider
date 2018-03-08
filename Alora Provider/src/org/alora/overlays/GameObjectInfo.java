@@ -55,7 +55,7 @@ public class GameObjectInfo extends ScreenOverlay<GameObject> {
                     }
                 }
             }*/
-            System.out.println(Bank.contains(995));
+            Bank.withdraw(385, 100);
             b = true;
         }
     }
