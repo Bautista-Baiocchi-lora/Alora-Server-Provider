@@ -4,6 +4,7 @@ package org.alora.overlays;
 import org.alora.api.data.Game;
 import org.alora.api.data.Menu;
 import org.alora.api.interactive.Players;
+import org.alora.api.interactive.Widgets;
 import org.ubot.bot.component.screen.ScreenOverlay;
 
 import java.awt.*;
@@ -46,6 +47,10 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
     public void render(Graphics2D graphics) {
         if (!Game.isLoggedIn())
             return;
+        for (int i : Widgets.getOpenInterfaces()) {
+            System.out.println(i);
+        }
+        System.out.println();
         graphics.setColor(Color.orange);
         int yOff = 30;
 

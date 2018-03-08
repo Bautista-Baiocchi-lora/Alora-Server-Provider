@@ -1,11 +1,10 @@
 package org.alora.overlays;
 
 
+import org.alora.api.data.Bank;
 import org.alora.api.data.Game;
 import org.alora.api.interactive.GameObjects;
-import org.alora.api.interactive.Npcs;
 import org.alora.api.wrappers.GameObject;
-import org.alora.api.wrappers.NPC;
 import org.ubot.bot.component.screen.ScreenOverlay;
 
 import java.awt.*;
@@ -31,10 +30,32 @@ public class GameObjectInfo extends ScreenOverlay<GameObject> {
         if (!Game.isLoggedIn())
             return;
         if (!b) {
-            NPC n = Npcs.getNearest("Nechryael");
-            if (n != null && n.isValid()) {
-                n.walkTo();
-            }
+   /*         for(Widget w : Widgets.get()) {
+                if(w != null && w.isValid()) {
+                    WidgetChild[] wc = w.getChildren();
+                    if(wc.length > 0) {
+                    for(WidgetChild child : wc) {
+                        if (child != null) {
+                            if (child.getHash() == 44171292) {
+                                System.out.println(child.getParent() + " : "+child.getIndex());
+                                break;
+                            }
+                        }
+                        if(child.getChildren().length > 0) {
+                            for (WidgetChild child2 : child.getChildren()) {
+                                if (child2 != null) {
+                                    if (child2.getHash() == 44171292) {
+                                        System.out.println("AY2: ");
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    }
+                }
+            }*/
+            System.out.println(Bank.contains(995));
             b = true;
         }
     }

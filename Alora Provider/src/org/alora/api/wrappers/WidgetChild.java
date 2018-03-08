@@ -28,6 +28,15 @@ public class WidgetChild implements Interactable {
         return (int) Loader.getReflectionEngine().getFieldValue("IK", "RZ", raw);
     }
 
+    public int getItemStackSize() {
+        return (int) Loader.getReflectionEngine().getFieldValue("IK", "HZ", raw);
+    }
+
+    public int getItemID() {
+        return (int) Loader.getReflectionEngine().getFieldValue("IK", "g", raw);
+    }
+
+
     public String getText() {
         return (String) Loader.getReflectionEngine().getFieldValue("IK", "XI", raw);
     }

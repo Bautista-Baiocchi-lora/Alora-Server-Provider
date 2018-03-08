@@ -23,8 +23,8 @@ public class Inventory {
             return list.toArray(new Item[list.size()]);
         if (Widgets.getOpenInterfaces().contains(300)) {
             WIDGET_INVENTORY_INDEX = 301;
-        } else if (Widgets.getOpenInterfaces().contains(15)) {
-            WIDGET_INVENTORY_INDEX = 674;
+        } else if (Widgets.getOpenInterfaces().contains(674)) {
+            WIDGET_INVENTORY_INDEX = 15;
         } else {
             WIDGET_INVENTORY_INDEX = 149;
         }
