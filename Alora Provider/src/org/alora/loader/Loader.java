@@ -36,6 +36,7 @@ public class Loader extends ServerLoader {
         overlays.add(new InventoryOverlay());
         overlays.add(new NPCInfoOverlay());
         overlays.add(new PlayerInfoOverlay());
+        overlays.add(new GroundItemOverlay());
         overlays.add(new SettingsDebugger());
         return overlays;
     }

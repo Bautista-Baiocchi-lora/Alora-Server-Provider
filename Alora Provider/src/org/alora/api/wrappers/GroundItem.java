@@ -38,6 +38,8 @@ public class GroundItem implements Locatable, Identifiable, Nameable, Interactab
     }
 
     private Object getItemInstance() {
+        if (raw == null)
+            return null;
         return Loader.getReflectionEngine().getFieldValue("HA", "B", raw);
     }
 
@@ -50,6 +52,8 @@ public class GroundItem implements Locatable, Identifiable, Nameable, Interactab
 
     @Override
     public int getId() {
+        if (itemInstance == null)
+            return -1;
         return (int) Loader.getReflectionEngine().getFieldValue("AE", "F", itemInstance);
     }
 

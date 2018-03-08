@@ -3,6 +3,7 @@ package org.alora.api.wrappers;
 import org.alora.api.data.Calculations;
 import org.alora.api.data.Game;
 import org.alora.api.data.Walking;
+import org.alora.api.interactive.Players;
 import org.alora.api.interfaces.Interactable;
 import org.alora.api.interfaces.Locatable;
 import org.alora.loader.Loader;
@@ -109,22 +110,38 @@ public class Actor implements Locatable, Interactable {
         }
     }
 
-    public Actor getInteracting() {
-        if (raw == null)
-            return null;
-        int interactingIndex = getInteractingIndex();
-        if (interactingIndex == -1)
-            return new Actor(null);
-        if (interactingIndex < 32768) {
-            Object[] localNpcs = (Object[]) Loader.getReflectionEngine().getFieldValue("YB", "H", null);
-            if (localNpcs.length > interactingIndex)
-                return new NPC(interactingIndex, localNpcs[interactingIndex]);
-        } else {
-            interactingIndex -= 32768;
+    public String getActorName() {
+        if (this instanceof NPC) {
+            String name = ((NPC) this).getName();
+            return name;
+        } else if (this instanceof Player) {
+            String name = ((Player) this).getName();
+            return name;
         }
-        return new Actor(null);
+        return "null";
     }
 
+
+    public final Actor getInteractingCharacter() {
+        int index = getInteractingIndex();
+        if (index != -1 && index < 32768) {
+            Object[] localNpcs = (Object[]) Loader.getReflectionEngine().getFieldValue("YB", "H", null);
+            return new NPC(getInteractingIndex(), localNpcs[getInteractingIndex()]);
+        } else if (index >= 32768) {
+            index -= 32768;
+            try {
+                final Object[] players = (Object[]) Loader.getReflectionEngine().getFieldValue("MS", "GI", null);
+                if (players[index] == null) {
+                    return Players.getLocal();
+                }
+                return new Player(players[index]);
+            } catch (Throwable t) {
+                return Players.getLocal();
+            }
+        }
+
+        return null;
+    }
     @Override
     public boolean interact(String action) {
         if (this instanceof NPC) {

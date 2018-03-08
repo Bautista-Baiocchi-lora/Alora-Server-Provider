@@ -2,10 +2,10 @@ package org.alora.overlays;
 
 
 import org.alora.api.data.Game;
-import org.alora.api.data.Walking;
 import org.alora.api.interactive.GameObjects;
+import org.alora.api.interactive.Npcs;
 import org.alora.api.wrappers.GameObject;
-import org.alora.api.wrappers.Tile;
+import org.alora.api.wrappers.NPC;
 import org.ubot.bot.component.screen.ScreenOverlay;
 
 import java.awt.*;
@@ -31,7 +31,10 @@ public class GameObjectInfo extends ScreenOverlay<GameObject> {
         if (!Game.isLoggedIn())
             return;
         if (!b) {
-            Walking.walkTo(new Tile(3116, 3522));
+            NPC n = Npcs.getNearest("Nechryael");
+            if (n != null && n.isValid()) {
+                n.walkTo();
+            }
             b = true;
         }
     }

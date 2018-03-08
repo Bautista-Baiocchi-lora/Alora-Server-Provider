@@ -77,7 +77,7 @@ public class GroundItems {
     public static GroundItem getNearest(Tile start, Filter<GroundItem> filter) {
         if (!Game.isLoggedIn())
             return nil();
-        GroundItem closet = new GroundItem(null, null);
+        GroundItem closet = null;
         int distance = 16;
         for (GroundItem groundItem : getAll(filter)) {
             if (groundItem.isValid() && distance > groundItem.distanceTo(start)) {
