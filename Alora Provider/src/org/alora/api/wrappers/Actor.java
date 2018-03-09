@@ -26,25 +26,25 @@ public class Actor implements Locatable, Interactable {
     public int getLocalX() {
         if (!isValid())
             return -1;
-        return (int) Loader.getReflectionEngine().getFieldValue("WS", "x", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "y", raw);
     }
 
     public int getLocalY() {
         if (!isValid())
             return -1;
-        return (int) Loader.getReflectionEngine().getFieldValue("WS", "y", raw);
+        return (int) Loader.getReflectionEngine().getFieldValue("WS", "x", raw);
     }
 
     public int getX() {
         if (!isValid())
             return -1;
-        return ((((int) Loader.getReflectionEngine().getFieldValue("WS", "x", raw)) >> 7) + Game.getBaseX());
+        return ((((int) Loader.getReflectionEngine().getFieldValue("WS", "y", raw)) >> 7) + Game.getBaseX());
     }
 
     public int getY() {
         if (!isValid())
             return -1;
-        return ((((int) Loader.getReflectionEngine().getFieldValue("WS", "y", raw)) >> 7) + Game.getBaseY());
+        return ((((int) Loader.getReflectionEngine().getFieldValue("WS", "x", raw)) >> 7) + Game.getBaseY());
     }
 
     public int getAnimation() {
@@ -126,6 +126,8 @@ public class Actor implements Locatable, Interactable {
         int index = getInteractingIndex();
         if (index != -1 && index < 32768) {
             Object[] localNpcs = (Object[]) Loader.getReflectionEngine().getFieldValue("YB", "H", null);
+            if (localNpcs == null)
+                return new NPC(-1, null);
             return new NPC(getInteractingIndex(), localNpcs[getInteractingIndex()]);
         } else if (index >= 32768) {
             index -= 32768;

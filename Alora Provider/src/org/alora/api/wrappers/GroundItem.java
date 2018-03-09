@@ -16,25 +16,27 @@ import org.alora.loader.Loader;
  * Created by Ethan on 3/2/2018.
  */
 public class GroundItem implements Locatable, Identifiable, Nameable, Interactable {
-    private Tile location;
     private Object raw;
     private Object itemInstance;
     private ItemDefinition itemDefinition;
     private int id;
+    private int x;
+    private int y;
 
-    public GroundItem(Object raw, Tile tile) {
+    public GroundItem(Object raw, int x, int y) {
         this.raw = raw;
-        this.location = tile;
+        this.x = x;
+        this.y = y;
         this.itemInstance = getItemInstance();
         this.id = getId();
     }
 
-    private int getLocalX() {
-        return location.getX() - Game.getBaseX();
+    public int getLocalX() {
+        return x;
     }
 
-    private int getLocalY() {
-        return location.getY() - Game.getBaseY();
+    public int getLocalY() {
+        return y;
     }
 
     private Object getItemInstance() {
@@ -76,7 +78,7 @@ public class GroundItem implements Locatable, Identifiable, Nameable, Interactab
 
     @Override
     public int distanceTo() {
-        return Calculations.distanceTo(location);
+        return Calculations.distanceTo(getLocation());
     }
 
     @Override
@@ -86,12 +88,12 @@ public class GroundItem implements Locatable, Identifiable, Nameable, Interactab
 
     @Override
     public int distanceTo(Tile tile) {
-        return Calculations.distanceBetween(getLocation(), tile);
+        return Calculations.distanceBetween(getLocation(), getLocation());
     }
 
     @Override
     public Tile getLocation() {
-        return location;
+        return new Tile(Game.getBaseX() + getLocalX(), Game.getBaseY() + getLocalY(), Game.getPlane());
     }
 
     public boolean walkTo() {

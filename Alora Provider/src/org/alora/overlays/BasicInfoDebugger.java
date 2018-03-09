@@ -38,6 +38,8 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
         drawText("Location: " + Players.getLocal().getLocation());
         drawText("Plane: " + Game.getPlane());
         drawText("Logged In: " + Game.isLoggedIn() + " : " + Game.getGameState());
+        drawText("test: " + Game.test1());
+        drawText("test1: " + Game.test2());
 
         //192 - mage book
         return debuggedList.toArray(new String[debuggedList.size()]);
@@ -48,9 +50,9 @@ public class BasicInfoDebugger extends ScreenOverlay<String> {
         if (!Game.isLoggedIn())
             return;
         for (int i : Widgets.getOpenInterfaces()) {
-            System.out.println(i);
+            //System.out.println(i);
         }
-        System.out.println();
+        // System.out.println();
         graphics.setColor(Color.orange);
         int yOff = 30;
 

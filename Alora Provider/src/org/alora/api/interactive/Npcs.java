@@ -28,6 +28,8 @@ public class Npcs {
             return list.toArray(new NPC[list.size()]);
         final Object[] objects = (Object[]) Loader.getReflectionEngine().getFieldValue("YB", "H", null);
         int i = 0;
+        if (objects == null || objects.length <= 0)
+            return list.toArray(new NPC[list.size()]);
         for (Object npc : objects) {
             if (npc != null) {
                 NPC wrapper = new NPC(i, npc);

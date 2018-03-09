@@ -24,6 +24,14 @@ public class Game {
         return (int) Loader.getReflectionEngine().getFieldValue("CS", "C", null);
     }
 
+    public static boolean test1() {
+        return (boolean) Loader.getReflectionEngine().getFieldValue("AJ", "F", null);
+    }
+
+    public static boolean test2() {
+        return (boolean) Loader.getReflectionEngine().getFieldValue("CC", "A", null);
+    }
+
     public static int getGameState() {
         return (int) Loader.getReflectionEngine().getFieldValue("MS", "LI", null);
 
@@ -54,4 +62,6 @@ public class Game {
     public static boolean isLoggedIn() {
         return getGameState() == STATE_LOGGED_IN;
     }
+
+
 }

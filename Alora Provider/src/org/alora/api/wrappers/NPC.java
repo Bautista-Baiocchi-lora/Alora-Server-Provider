@@ -22,10 +22,14 @@ public class NPC extends Actor implements Identifiable, Nameable {
     }
 
     public String getName() {
+        if (npcDefinition == null)
+            return "null";
         return npcDefinition.getName();
     }
 
     public int getId() {
+        if (npcDefinition == null)
+            return -1;
         return npcDefinition.getId();
     }
 

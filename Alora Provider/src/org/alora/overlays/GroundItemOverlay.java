@@ -27,7 +27,9 @@ public class GroundItemOverlay extends ScreenOverlay<GroundItem> {
             return;
         for (GroundItem p : refresh()) {
             if (p != null && p.isValid()) {
-                System.out.println(p.getId() + " : " + p.getName() + " : " + p.distanceTo());
+                int x = p.getLocation().getX() - p.getLocalX();
+                int y = p.getLocation().getY() - p.getLocalY();
+                System.out.println(p.getId() + " : " + p.getName() + " : " + p.distanceTo() + " : " + p.getLocalX() + " : " + p.getLocalY() + " : " + x + " : " + y);
             }
         }
     }

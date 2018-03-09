@@ -21,17 +21,20 @@ public class GroundItems {
         if (!Game.isLoggedIn())
             return groundItems.toArray(new GroundItem[groundItems.size()]);
         Object[][][] groundArrayObjects = (Object[][][]) Loader.getReflectionEngine().getFieldValue("VB", "L");
-
+        if (groundArrayObjects == null)
+            return groundItems.toArray(new GroundItem[groundItems.size()]);
         int z = Game.getPlane();
-        for (int x = 0; x < 104; x++) {
-            for (int y = 0; y < 104; y++) {
-                Object nl = groundArrayObjects[z][x][y];
+        for (int i = 0; (i ^ 0xFFFFFFFF) > -105; i++) {
+            for (int k = 0; (k ^ 0xFFFFFFFF) > -105; k++) {
+                if (groundArrayObjects != null) {
+                    Object nl = groundArrayObjects[z][i][k];
                 if (nl != null) {
                     for (Object obj = getMethodValue("D", nl); obj != null; obj = getMethodValue("B", nl)) {
-                        GroundItem groundItem = new GroundItem(obj, new Tile(Game.getBaseX() + x, Game.getBaseY() + y, Game.getPlane()));
+                        GroundItem groundItem = new GroundItem(obj, i, k);
                         if (filter == null || filter.accept(groundItem)) {
                             groundItems.add(groundItem);
                         }
+                    }
                     }
                 }
             }
@@ -40,6 +43,8 @@ public class GroundItems {
     }
 
     private static Object getMethodValue(String field, Object obj) {
+        if (obj == null)
+            return null;
         try {
             Class<?> clazz = Loader.getReflectionEngine().getClass("TS").getRespresentedClass();
             for (Method m : clazz.getDeclaredMethods()) {
@@ -51,7 +56,7 @@ public class GroundItems {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }
@@ -108,7 +113,7 @@ public class GroundItems {
 
 
     public static GroundItem nil() {
-        return new GroundItem(null, null);
+        return new GroundItem(null, -1, -1);
     }
 
 }

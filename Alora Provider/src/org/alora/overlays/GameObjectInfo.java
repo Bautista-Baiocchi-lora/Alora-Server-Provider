@@ -1,10 +1,12 @@
 package org.alora.overlays;
 
 
-import org.alora.api.data.Bank;
 import org.alora.api.data.Game;
 import org.alora.api.interactive.GameObjects;
+import org.alora.api.interactive.GroundItems;
+import org.alora.api.interactive.Players;
 import org.alora.api.wrappers.GameObject;
+import org.alora.api.wrappers.GroundItem;
 import org.ubot.bot.component.screen.ScreenOverlay;
 
 import java.awt.*;
@@ -55,7 +57,9 @@ public class GameObjectInfo extends ScreenOverlay<GameObject> {
                     }
                 }
             }*/
-            Bank.withdraw(385, 100);
+            for (GroundItem g : GroundItems.getAll()) {
+                System.out.println(g.getLocation() + " : " + g.distanceTo(Players.getLocal()));
+            }
             b = true;
         }
     }
